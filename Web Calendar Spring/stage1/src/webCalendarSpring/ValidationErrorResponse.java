@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ValidationErrorResponse {
 
-    public ValidationErrorResponse(List<Violation> violations) {
+    public  ValidationErrorResponse(List<Violation> violations) {
         this.violations = violations;
     }
 
