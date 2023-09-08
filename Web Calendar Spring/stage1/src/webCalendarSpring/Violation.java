@@ -1,5 +1,7 @@
 package webCalendarSpring;
 
+import java.util.Objects;
+
 public class Violation {
 
     private final String fieldName;
@@ -19,4 +21,16 @@ public class Violation {
 
     private final String message;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Violation violation = (Violation) o;
+        return Objects.equals(fieldName, violation.fieldName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fieldName);
+    }
 }

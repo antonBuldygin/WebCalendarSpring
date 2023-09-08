@@ -1,5 +1,7 @@
 package webCalendarSpring.controllers;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +27,9 @@ public class EventsController {
     @GetMapping("/event/today")
     public ResponseEntity<?> todayEvents() {
 
-        String data = "\"data\":\"There are no events for today!\" \n ";
+        String data = "{\"data\":\"There are no events for today!\"}";
+//        JsonObject convertedObject = new Gson().fromJson(data, JsonObject.class);
+
         if (eventEntityRepository.findByDate(LocalDate.now()).isEmpty()) {
             return ResponseEntity.badRequest().body(data);
         }
@@ -50,8 +54,8 @@ public class EventsController {
         eventEntityRepository.save(event);
         return "{ \n" +
                 "    \"message\": \"The event has been added!\", \n" +
-                "    \"event\": " + event.getEvent() + ", \n" +
-                "    \"date\": " + event.getDate() + " \n" +
+                "    \"event\": " +"\""+ event.getEvent()  +"\""+ ", \n" +
+                "    \"date\": "  +"\""+ event.getDate()  +"\""+ " \n" +
                 "} ";
     }
 

@@ -20,7 +20,7 @@ public class EventEntity {
     @Column(name = "event")
     private String event;
 
-    @FutureOrPresent
+
     @NotNull( message = "Не должен быть Null")
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "date", nullable = false)

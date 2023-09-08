@@ -7,6 +7,16 @@ import java.time.LocalDate;
  */
 public class Event {
     String event;
-    LocalDate date ;
+    String date ;
 
+    public Event(String event, String date) {
+        this.event = event;
+        this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return "{ \"event\":" + "\""+ event +"\""+
+                ", \"date\":" + "\""+ date +"\""+ "}";
+    }
 }
