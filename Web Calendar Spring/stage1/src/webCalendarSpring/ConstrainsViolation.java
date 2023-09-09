@@ -18,46 +18,30 @@ import java.util.*;
 public class ConstrainsViolation {
     private static final Gson gson = new Gson();
 
+
     @ResponseBody
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     ResponseEntity<?> eventConstrainsViolation(ConstraintViolationException ex) {
-
+         boolean event =false;
         Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
-//        final List<Violation> violations = ex.getConstraintViolations().stream()
-//                       .map(
-//                        violation -> new Violation(
-//                                violation.getPropertyPath().toString(),
-//                                violation.getMessage()
-//                        )
-//                )
-//                .collect(Collectors.toList());
 
         Map<String, Map<String,String>> result = new TreeMap<>();
         for (ConstraintViolation<?> it :
                 constraintViolations) {
+            if (it.getPropertyPath().toString().equals("event")) {
+                result.put("message", Map.of("event", "The event name is required!"));
+               event = true;
+            }
 
-
-            if (it.getPropertyPath().toString().equals("date")) {
-
-//                String json = gson.toJson(Map.of(
-//                        "message", (Map.of("date","The event date with the correct format is required! The correct format is YYYY-MM-DD!"
-//                ))));
+            if (it.getPropertyPath().toString().equals("date")&&!event) {
 
                 result.put("message", Map.of("date",
                         "The event date with the correct format is required! The correct format is YYYY-MM-DD!"));
 
-
-
             }
 
-            if (it.getPropertyPath().toString().equals("event")) {
 
-                result.put("message", Map.of("event", "The event name is required!"));
-
-
-
-            }
 
         }
 
@@ -82,5 +66,8 @@ public class ConstrainsViolation {
         return ex.getMessage();
     }
 }
+
+
+
 
 

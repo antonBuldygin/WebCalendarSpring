@@ -3,6 +3,7 @@ package webCalendarSpring.controllers;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import webCalendarSpring.entities.EventEntity;
@@ -69,7 +70,9 @@ public class EventsController {
             foundById = byId.get();
         }
         if (byId.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<> ("{\n" +
+                    "    \"message\": \"The event doesn't exist!\"\n" +
+                    "}",HttpStatus.NOT_FOUND);
         }
 
         return ResponseEntity.ok().body(foundById);
@@ -114,12 +117,16 @@ public class EventsController {
         EventEntity foundById = new EventEntity();
 
         if (byId.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<> ("{\n" +
+                    "    \"message\": \"The event doesn't exist!\"\n" +
+                    "}",HttpStatus.NOT_FOUND);
         }
 
         foundById = byId.get();
         eventEntityRepository.deleteById(id);
-        return ResponseEntity.ok().body(foundById.toString() + " deleted");
+        return ResponseEntity.ok().body("{\n" +
+                "    \"message\": \"The event has been deleted!\"\n" +
+                "}");
 
 
     }

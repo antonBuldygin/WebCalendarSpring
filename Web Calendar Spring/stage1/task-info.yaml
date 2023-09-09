@@ -1,7 +1,5 @@
 type: edu
 files:
-  - name: src/webCalendarSpring/Book.java
-    visible: true
   - name: src/webCalendarSpring/entities/BookEntity.java
     visible: true
   - name: src/webCalendarSpring/controllers/BookController.java
@@ -28,7 +26,9 @@ files:
     visible: true
   - name: build.gradle
     visible: true
-  - name: test/webCalendarSpringTest.java
-    visible: false
   - name: src/webCalendarSpring/controllers/EventsController.java
     visible: true
+  - name: src/webCalendarSpring/Book.java
+    visible: true
+  - name: test/webCalendarSpringTest.java
+    visible: false
