@@ -28,7 +28,5 @@ files:
     visible: true
   - name: src/webCalendarSpring/controllers/EventsController.java
     visible: true
-  - name: src/webCalendarSpring/Book.java
-    visible: true
   - name: test/webCalendarSpringTest.java
     visible: false
