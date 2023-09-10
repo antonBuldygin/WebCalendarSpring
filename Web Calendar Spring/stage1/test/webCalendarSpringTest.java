@@ -47,9 +47,7 @@ public class webCalendarSpringTest extends SpringTest {
 
     int count = 0;
 
-    int randomCount = 0;
-
-    public webCalendarSpringTest() {
+     public webCalendarSpringTest() {
 
             super(Main.class, "../d.mv.db");
 
