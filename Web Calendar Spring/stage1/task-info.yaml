@@ -1,14 +1,6 @@
 type: edu
 files:
-  - name: src/webCalendarSpring/entities/BookEntity.java
-    visible: true
-  - name: src/webCalendarSpring/controllers/BookController.java
-    visible: true
-  - name: src/webCalendarSpring/controllers/BookDto.java
-    visible: true
   - name: src/webCalendarSpring/Event.java
-    visible: true
-  - name: src/webCalendarSpring/repositories/BookRepository.java
     visible: true
   - name: src/webCalendarSpring/entities/EventEntity.java
     visible: true

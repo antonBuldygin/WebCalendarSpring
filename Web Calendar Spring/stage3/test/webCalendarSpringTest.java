@@ -1,4 +1,7 @@
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import org.hyperskill.hstest.dynamic.DynamicTest;
 import org.hyperskill.hstest.dynamic.input.DynamicTesting;
 import org.hyperskill.hstest.exception.outcomes.WrongAnswer;
@@ -43,7 +46,7 @@ class EventForTest {
 }
 
 public class webCalendarSpringTest extends SpringTest {
-    EventForTest eventForTest;
+
 
     int count = 0;
 
@@ -111,12 +114,9 @@ public class webCalendarSpringTest extends SpringTest {
     CheckResult testEndpoint(String url, int status) {
         HttpResponse response = get(url).send();
 
-        System.out.println(response.getContent() + " " + response.getRequest() + " " + response.getStatusCode() + " " +
-                response.getHeaders() + " " + response.getRequest().getLocalUri() + " " + response.getRequest().getMethod()
-                + " " + response.getRequest().getContent());
-        if (url.equals(eventEndPoint)) {
-            checkStatusCode(response, status);
-        }
+        System.out.println(response.getContent() + "\n " + response.getStatusCode() +
+                "\n " + response.getRequest().getLocalUri() + "\n " + response.getRequest().getMethod());
+
 
         if (count == 0 && !response.getJson().isJsonObject()) {
             return CheckResult.wrong("Wrong object in response, expected JSON but was \n" +
@@ -165,6 +165,11 @@ public class webCalendarSpringTest extends SpringTest {
 
             } else {
                 eventsToString = eventsList.stream().map(it -> it.toString()).collect(Collectors.toList());
+                if (eventsToString.size() == 0) {
+                    checkStatusCode(response, 400);
+                } else {
+                    checkStatusCode(response, 200);
+                }
             }
             eventsToString.stream().forEach(System.out::println);
 
@@ -192,7 +197,6 @@ public class webCalendarSpringTest extends SpringTest {
             }
 
         }
-
 
 
         return CheckResult.correct();
@@ -219,164 +223,6 @@ public class webCalendarSpringTest extends SpringTest {
         return jsonArray.toString();
     }
 
-    CheckResult testEndpointWithParams(String url, String startDay, String endDay) {
-        HttpResponse response = get(url + "?start_time=" + startDay + "&end_time=" + endDay).send();
-
-        System.out.println(response.getContent() + " " + response.getRequest() + " " + response.getStatusCode() + " " +
-                response.getHeaders() + " " + response.getRequest().getLocalUri() + " " + response.getRequest().getMethod()
-                + " " + response.getRequest().getContent());
-
-
-        if (count == 0 && !response.getJson().isJsonObject()) {
-            return CheckResult.wrong("Wrong object in response, expected JSON but was \n" +
-                    response.getContent().getClass());
-
-        }
-
-
-        if (response.getStatusCode() == 400) {
-
-            expect(response.getContent()).asJson().check(
-                    isObject()
-                            .value("data", "There are no events!")
-
-            );
-
-        }
-
-        if (response.getStatusCode() == 200) {
-
-            if (!response.getJson().isJsonArray()) {
-                return CheckResult.wrong("Wrong object in response, expected array of JSON but was \n" +
-                        response.getContent().getClass());
-            }
-
-            List<String> eventsToString;
-
-
-            eventsToString = eventsList.stream().filter(it -> LocalDate.parse(it.date).equals(LocalDate.parse(startDay))
-                    || LocalDate.parse(it.date).isAfter(LocalDate.parse(startDay))
-                    && (LocalDate.parse(it.date).equals(LocalDate.parse(endDay))
-                    || LocalDate.parse(it.date).isBefore(LocalDate.parse(endDay)))
-            ).map(it -> it.toString()).collect(Collectors.toList());
-
-            eventsToString.stream().forEach(System.out::println);
-
-            if (eventsToString.size() == 0) {
-                checkStatusCode(response, 400);
-            }
-            String convertJsonToString = convert(eventsToString);
-            JsonArray correctJson = getJson(convertJsonToString).getAsJsonArray();
-
-            JsonArray responseJson = getJson(response.getContent()).getAsJsonArray();
-
-            if (responseJson.size() != correctJson.size()) {
-                return CheckResult.wrong("Correct json array size should be " +
-                        correctJson.size() + "\n" +
-                        "Response array size is: " + responseJson.size() + "\n");
-            }
-
-
-            for (int i = 0; i < responseJson.size(); i++) {
-
-
-                expect(responseJson.get(i).getAsJsonObject().toString()).asJson()
-                        .check(isObject()
-                                .value("id", correctJson.get(i).getAsJsonObject().get("id").getAsInt())
-                                .value("event", correctJson.get(i).getAsJsonObject().get("event").getAsString())
-                                .value("date", correctJson.get(i).getAsJsonObject().get("date").getAsString()));
-
-            }
-        }
-
-        return CheckResult.correct();
-    }
-
-    CheckResult testEndpoinById(String url, int id) {
-        HttpResponse response = get(url + "/" + id).send();
-
-        if (eventsList.stream().filter(it -> it.id == id).map(it -> it.toString()).collect(Collectors.toList()).size() == 1) {
-            checkStatusCode(response, 200);
-        }
-
-        if (eventsList.stream().filter(it -> it.id == id).map(it -> it.toString()).collect(Collectors.toList()).size() == 0) {
-            checkStatusCode(response, 404);
-        }
-
-        System.out.println(response.getContent() + " " + response.getRequest() + " " + response.getStatusCode() + " " +
-                response.getHeaders() + " " + response.getRequest().getLocalUri() + " " + response.getRequest().getMethod()
-                + " " + response.getRequest().getContent());
-
-        if (response.getStatusCode() == 404) {
-
-            expect(response.getContent()).asJson().check(
-                    isObject()
-                            .value("message", "The event doesn't exist!")
-
-            );
-
-        }
-
-        if (response.getStatusCode() == 200) {
-
-            if (!response.getJson().isJsonObject()) {
-                return CheckResult.wrong("Wrong object in response, expected array of JSON but was \n" +
-                        response.getContent().getClass());
-            }
-
-            List<String> eventsToString;
-
-
-            eventsToString = eventsList.stream().filter(it -> it.id == id).map(it -> it.toString()).collect(Collectors.toList());
-
-            eventsToString.stream().forEach(System.out::println);
-
-            String convertJsonToString = eventsToString.get(0).toString();
-
-
-            JsonObject correctJson = getJson(convertJsonToString).getAsJsonObject();
-
-            JsonObject responseJson = getJson(response.getContent()).getAsJsonObject();
-
-
-            expect(responseJson.toString()).asJson()
-                    .check(isObject()
-                            .value("id", correctJson.getAsJsonObject().get("id").getAsInt())
-                            .value("event", correctJson.getAsJsonObject().get("event").getAsString())
-                            .value("date", correctJson.getAsJsonObject().get("date").getAsString()));
-
-
-        }
-
-
-        return CheckResult.correct();
-    }
-
-    CheckResult testEndpointDeleteById(String url, int status, int id) {
-        HttpResponse response = delete(url + "/" + id).send();
-        checkStatusCode(response, status);
-        System.out.println(response.getContent() + " " + response.getRequest() + " " + response.getStatusCode() + " " +
-                response.getHeaders() + " " + response.getRequest().getLocalUri() + " " + response.getRequest().getMethod()
-                + " " + response.getRequest().getContent());
-
-        JsonObject responseJson = getJson(response.getContent()).getAsJsonObject();
-
-        if (status == 200) {
-            expect(responseJson.toString()).asJson()
-                    .check(isObject()
-                            .value("message", "The event has been deleted!")
-                    );
-        }
-
-        if (status == 404) {
-            expect(responseJson.toString()).asJson()
-                    .check(isObject()
-                            .value("message", "The event doesn't exist!")
-                    );
-        }
-        eventsList = eventsList.stream().filter(it -> it.id != id).collect(Collectors.toList());
-        return CheckResult.correct();
-    }
 
     CheckResult testPostEvent(Map<String, String> body, int status) {
 
@@ -384,9 +230,9 @@ public class webCalendarSpringTest extends SpringTest {
 
         HttpResponse response = post(eventEndPoint, jsonBody).send();
         checkStatusCode(response, status);
-        System.out.println(response.getContent() + " " + response.getRequest() + " " + response.getStatusCode() + " " +
-                response.getHeaders() + " " + response.getRequest().getLocalUri() + " " + response.getRequest().getMethod()
-                + " " + response.getRequest().getContent());
+        System.out.println(response.getContent() + "\n "  + response.getStatusCode() + "\n "
+                + response.getRequest().getLocalUri() + "\n " + response.getRequest().getMethod()
+                + "\n" + response.getRequest().getContent());
         if (status == 200) {
             count++;
             EventForTest event = new EventForTest(count, body.get("event"), body.get("date"));
@@ -414,9 +260,7 @@ public class webCalendarSpringTest extends SpringTest {
                 );
 
 
-                if (body.get("event") != null) {
-                    System.out.println("WE ARE HERE" + body.get("event").trim() + "<>");
-                } else System.out.println("NULL");
+
             } else if (body.get("date") == null || (body.get("date").trim().equals(""))) {
                 expect(response.getContent()).asJson().check(
                         isObject()
@@ -434,7 +278,7 @@ public class webCalendarSpringTest extends SpringTest {
 
     private int randomReturn(List<Map<String, String>> list) {
         int toReturn = (int) Math.round(Math.random() * (list.size() - 1));
-        System.out.println(toReturn);
+//        System.out.println(toReturn);
 
         return toReturn;
     }
@@ -448,70 +292,42 @@ public class webCalendarSpringTest extends SpringTest {
 
     @DynamicTest
     DynamicTesting[] dynamicTests = new DynamicTesting[]{
-
-
             () -> testEndpoint(todayEndPoint, 400), //#1
             () -> testEndpoint(eventEndPoint, 400), //#2
-            () -> testEndpointWithParams(eventEndPoint,
-                    randomDate(-300, -5), randomDate(10, 5)),//#3
-            () -> testPostEvent(justToday, 200), //#4
-            () -> testPostEvent(justToday, 200), //#5
-            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200), //#6
-            () -> testEndpoint(todayEndPoint, 200),//#7
-            () -> testEndpoint(eventEndPoint, 200),//#8
-            () -> testEndpointWithParams(eventEndPoint,
-                    randomDate(-300, -5), randomDate(10, 5)),//#9
+
 
             //incorrect body for Post request
-            () -> testPostEvent(emptyEvent1, 400), //#10
-            () -> testPostEvent(blankEvent2, 400), //#11
-            () -> testPostEvent(nullEvent3, 400), //#12
-            () -> testPostEvent(nullDate4, 400), //#13
-            () -> testPostEvent(emptyEventNullDate5, 400), //#14
-            () -> testPostEvent(emptyEventEmptyDate6, 400), //#15
-            () -> testPostEvent(blankDateEmptyEvent7, 400), //#16
-            () -> testPostEvent(blankDate8, 400), //#17
-            () -> testPostEvent(blankDate9, 400), //#18
-            () -> testPostEvent(emptyDate10, 400), //#19
-            () -> testPostEvent(emptyDate11, 400), //#20
+            () -> testPostEvent(emptyEvent1, 400), //#3
+            () -> testPostEvent(blankEvent2, 400), //#4
+            () -> testPostEvent(nullEvent3, 400), //#5
+            () -> testPostEvent(nullDate4, 400), //#6
+            () -> testPostEvent(emptyEventNullDate5, 400), //#7
+            () -> testPostEvent(emptyEventEmptyDate6, 400), //#8
+            () -> testPostEvent(blankDateEmptyEvent7, 400), //#9
+            () -> testPostEvent(blankDate8, 400), //#10
+            () -> testPostEvent(blankDate9, 400), //#11
+            () -> testPostEvent(emptyDate10, 400), //#12
+            () -> testPostEvent(emptyDate11, 400), //#13
 
-            () -> testEndpoint(todayEndPoint, 200),//#21
-            () -> testEndpoint(eventEndPoint, 200),//#22
 
-            () -> testEndpointWithParams(eventEndPoint,
-                    randomDate(-300, -5), randomDate(10, 5)),//#23
-            () -> testEndpointWithParams(eventEndPoint,
-                    randomDate(-10, -5), randomDate(200, 5)),//#24
-            () -> testEndpointWithParams(eventEndPoint,
-                    randomDate(-8, -5), randomDate(20, 5)),//#25
+            () -> testPostEvent(justToday, 200), //#14
+            () -> testPostEvent(justToday, 200), //#15
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200), //#16
+            () -> testEndpoint(todayEndPoint, 200),//#17
+            () -> testEndpoint(eventEndPoint, 200),//#18
 
-            () -> testEndpoinById(eventEndPoint, 1),//#26
-            () -> testEndpointDeleteById(eventEndPoint, 200, 2),//#27
-            () -> testEndpoinById(eventEndPoint, 2),//#28
-            () -> testEndpoinById(eventEndPoint, 1),//#29
-            () -> testEndpoint(todayEndPoint, 200),//#30
-            () -> testEndpoint(eventEndPoint, 200),//#31
-            () -> testEndpointDeleteById(eventEndPoint, 200, 1),//#32
-            () -> testEndpoinById(eventEndPoint, 1),//#33
-            () -> testEndpoint(todayEndPoint, 400),//#34
-            () -> testEndpoint(eventEndPoint, 200),//#35
 
-            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//36
-            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//37
-            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//38
-            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//39
-            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//40
-            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//41
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//19
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//20
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//21
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//22
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//23
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//24
 
-            () -> testEndpoint(eventEndPoint, 200),//#42
-            () -> testEndpointWithParams(eventEndPoint,
-                    randomDate(-300, -5), randomDate(10, 5)),//#43
-            () -> testEndpointWithParams(eventEndPoint,
-                    randomDate(-10, -5), randomDate(200, 5)),//#44
-            this::reloadServer,//45
-            () -> testEndpointWithParams(eventEndPoint,
-                    randomDate(-8, -5), randomDate(20, 5)),//#46
-            () -> testEndpointDeleteById(eventEndPoint, 404, 1),//#47
+            () -> testEndpoint(eventEndPoint, 200),//#25
+            this::reloadServer,//26
+            () -> testEndpoint(todayEndPoint, 200),//#27
+            () -> testEndpoint(eventEndPoint, 200),//#28
     };
 
     @Before
