@@ -102,11 +102,11 @@ public class webCalendarSpringTest extends SpringTest {
 
     Map<String, String> blankDateEmptyEvent7 = Map.of("date", "    ", "event", "");
 
-    Map<String, String> blankDate8 = Map.of("date", "    ", "event", "event\",\"New Year Party");
-    Map<String, String> blankDate9 = Map.of("event", "event\",\"New Year Party", "date", "    ");
+    Map<String, String> blankDate8 = Map.of("date", "    ", "event", "New Year Party");
+    Map<String, String> blankDate9 = Map.of("event", "New Year Party", "date", "    ");
 
-    Map<String, String> emptyDate10 = Map.of("date", "", "event", "event\",\"New Year Party");
-    Map<String, String> emptyDate11 = Map.of("event", "event\",\"New Year Party", "date", "");
+    Map<String, String> emptyDate10 = Map.of("date", "", "event", "New Year Party");
+    Map<String, String> emptyDate11 = Map.of("event", "New Year Party", "date", "");
 
     CheckResult testEndpoint(String url, int status) {
         HttpResponse response = get(url).send();
