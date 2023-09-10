@@ -47,9 +47,9 @@ public class webCalendarSpringTest extends SpringTest {
 
     int count = 0;
 
-     public webCalendarSpringTest() {
+    public webCalendarSpringTest() {
 
-            super(Main.class, "../d.mv.db");
+        super(Main.class, "../d.mv.db");
 
     }
 
@@ -320,13 +320,28 @@ public class webCalendarSpringTest extends SpringTest {
         return CheckResult.correct();
     }
 
-    CheckResult testEndpoinDeleteById(String url, int status, int id) {
+    CheckResult testEndpointDeleteById(String url, int status, int id) {
         HttpResponse response = delete(url + "/" + id).send();
         checkStatusCode(response, status);
         System.out.println(response.getContent() + " " + response.getRequest() + " " + response.getStatusCode() + " " +
                 response.getHeaders() + " " + response.getRequest().getLocalUri() + " " + response.getRequest().getMethod()
                 + " " + response.getRequest().getContent());
 
+        JsonObject responseJson = getJson(response.getContent()).getAsJsonObject();
+
+        if (status == 200) {
+            expect(responseJson.toString()).asJson()
+                    .check(isObject()
+                            .value("message", "The event has been deleted!")
+                    );
+        }
+
+        if (status == 404) {
+            expect(responseJson.toString()).asJson()
+                    .check(isObject()
+                            .value("message", "The event doesn't exist!")
+                    );
+        }
         eventsList = eventsList.stream().filter(it -> it.id != id).collect(Collectors.toList());
         return CheckResult.correct();
     }
@@ -434,12 +449,12 @@ public class webCalendarSpringTest extends SpringTest {
                     randomDate(-8, -5), randomDate(20, 5)),//#22
 
             () -> testEndpoinById(eventEndPoint, 200, 1),//#23
-            () -> testEndpoinDeleteById(eventEndPoint, 200, 2),//#24
+            () -> testEndpointDeleteById(eventEndPoint, 200, 2),//#24
             () -> testEndpoinById(eventEndPoint, 404, 2),//#25
             () -> testEndpoinById(eventEndPoint, 200, 1),//#26
             () -> testEndpoint(todayEndPoint, 200),//#27
             () -> testEndpoint(eventEndPoint, 200),//#28
-            () -> testEndpoinDeleteById(eventEndPoint, 200, 1),//#29
+            () -> testEndpointDeleteById(eventEndPoint, 200, 1),//#29
             () -> testEndpoinById(eventEndPoint, 404, 1),//#30
             () -> testEndpoint(todayEndPoint, 400),//#31
             () -> testEndpoint(eventEndPoint, 200),//#32
