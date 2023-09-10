@@ -29,7 +29,7 @@ public class EventsController {
     public ResponseEntity<?> todayEvents() {
 
         String data = "{\"data\":\"There are no events for today!\"}";
-//        JsonObject convertedObject = new Gson().fromJson(data, JsonObject.class);
+
 
         if (eventEntityRepository.findByDate(LocalDate.now()).isEmpty()) {
             return ResponseEntity.badRequest().body(data);
@@ -38,16 +38,7 @@ public class EventsController {
 
     }
 
-    @GetMapping("/eventt")
-    public ResponseEntity<?> allEvents() {
 
-        String data = "\"data\":\"There are no events!\" \n ";
-        if (eventEntityRepository.findAll().isEmpty()) {
-            return ResponseEntity.badRequest().body(data);
-        }
-        return ResponseEntity.ok().body(eventEntityRepository.findAll());
-
-    }
 
     @PostMapping("/event")
     public String createEvent(@RequestBody EventEntity event) {

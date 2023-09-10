@@ -114,15 +114,17 @@ public class webCalendarSpringTest extends SpringTest {
     CheckResult testEndpoint(String url, int status) {
         HttpResponse response = get(url).send();
 
-        System.out.println(response.getContent() + "\n " + response.getStatusCode() +
-                "\n " + response.getRequest().getLocalUri() + "\n " + response.getRequest().getMethod());
-
+        checkStatusCode(response, status);
 
         if (count == 0 && !response.getJson().isJsonObject()) {
             return CheckResult.wrong("Wrong object in response, expected JSON but was \n" +
                     response.getContent().getClass());
 
         }
+
+        System.out.println(response.getContent() + "\n " + response.getStatusCode() +
+                "\n " + response.getRequest().getLocalUri() + "\n " + response.getRequest().getMethod());
+
 
 
         if (response.getStatusCode() == 400 && url.equals(todayEndPoint)) {
@@ -283,11 +285,11 @@ public class webCalendarSpringTest extends SpringTest {
         return toReturn;
     }
 
-    private String randomDate(int maxDays, int mindays) {
+    private String randomDate(int maxDays, int minDays) {
 
         LocalDate now = LocalDate.now();
 
-        return now.plusDays((int) Math.round(Math.random() * (maxDays - mindays) + mindays)).toString();
+        return now.plusDays((int) Math.round(Math.random() * (maxDays - minDays) + minDays)).toString();
     }
 
     @DynamicTest

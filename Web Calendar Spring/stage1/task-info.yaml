@@ -14,11 +14,11 @@ files:
     visible: true
   - name: src/webCalendarSpring/ConstrainsViolation.java
     visible: true
-  - name: src/webCalendarSpring/ValidationErrorResponse.java
-    visible: true
   - name: build.gradle
     visible: true
   - name: src/webCalendarSpring/controllers/EventsController.java
     visible: true
   - name: test/webCalendarSpringTest.java
     visible: false
+  - name: src/webCalendarSpring/ValidationErrorResponse.java
+    visible: true

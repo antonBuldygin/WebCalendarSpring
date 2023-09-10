@@ -110,7 +110,7 @@ public class webCalendarSpringTest extends SpringTest {
 
     CheckResult testEndpoint(String url, int status) {
         HttpResponse response = get(url).send();
-
+        checkStatusCode(response, status);
         System.out.println(response.getContent() + "\n "  + response.getStatusCode()
                 + "\n " + response.getRequest().getLocalUri()
                 + "\n " + response.getRequest().getMethod());
@@ -462,7 +462,6 @@ public class webCalendarSpringTest extends SpringTest {
 
     private int randomReturn(List<Map<String, String>> list) {
         int toReturn = (int) Math.round(Math.random() * (list.size() - 1));
-        System.out.println(toReturn);
 
         return toReturn;
     }
