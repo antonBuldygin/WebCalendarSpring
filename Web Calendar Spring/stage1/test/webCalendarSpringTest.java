@@ -1,5 +1,4 @@
 import com.google.gson.*;
-import org.hibernate.tool.schema.extract.internal.InformationExtractorJdbcDatabaseMetaDataImpl;
 import org.hyperskill.hstest.dynamic.DynamicTest;
 import org.hyperskill.hstest.dynamic.input.DynamicTesting;
 import org.hyperskill.hstest.exception.outcomes.WrongAnswer;
@@ -9,9 +8,10 @@ import org.hyperskill.hstest.testcase.CheckResult;
 import org.junit.Before;
 import webCalendarSpring.Main;
 
-import java.io.File;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.hyperskill.hstest.common.JsonUtils.getJson;
@@ -39,24 +39,7 @@ class EventForTest {
                 ", \"date\":" + "\"" + date + "\"" + "}";
     }
 
-    Map<String,String> justToday = Map.of(
-            "event", "Today is a good Day ",
-            "date", LocalDate.now().toString());
-    Map<String,String> newYear = Map.of(
-            "event", "New Year's Day",
-            "date", "2024-01-01");
-    Map<String,String> goodFriday = Map.of(
-            "event", "Good Friday",
-            "date", "2023-04-07");
-    Map<String,String> janHusDay = Map.of(
-            "event", "Jan Hus Day",
-            "date", "2023-07-06");
-   List <Map<String,String>> listOfEvents = new ArrayList<>();
-    {
-        listOfEvents.add(newYear);
-        listOfEvents.add(goodFriday);
-        listOfEvents.add(janHusDay);
-    }
+
 }
 
 public class webCalendarSpringTest extends SpringTest {
@@ -64,10 +47,11 @@ public class webCalendarSpringTest extends SpringTest {
 
     int count = 0;
 
-     int randomCount=0;
+    int randomCount = 0;
 
     public webCalendarSpringTest() {
-        super(Main.class);
+
+            super(Main.class, "../d.mv.db");
 
     }
 
@@ -78,7 +62,53 @@ public class webCalendarSpringTest extends SpringTest {
     private static final Gson gson = new Gson();
 
     private static List<EventForTest> eventsList = new ArrayList<>();
+    Map<String, String> justToday = Map.of(
+            "event", "Today is a good Day ",
+            "date", LocalDate.now().toString());
+    Map<String, String> newYear = Map.of(
+            "event", "New Year's Day",
+            "date", "2024-01-01");
+    Map<String, String> goodFriday = Map.of(
+            "event", "Good Friday",
+            "date", "2023-04-07");
+    Map<String, String> janHusDay = Map.of(
+            "event", "Jan Hus Day",
+            "date", "2023-07-06");
 
+    Map<String, String> justaPerfectDay = Map.of(
+            "event", "Perfect Day",
+            "date", randomDate(-20, 15));
+    Map<String, String> anotherGoodDay = Map.of(
+            "event", "Another Good Day",
+            "date", randomDate(-10, 5));
+    List<Map<String, String>> listOfEvents = new ArrayList<>();
+
+    {
+        listOfEvents.add(newYear);
+        listOfEvents.add(goodFriday);
+        listOfEvents.add(janHusDay);
+        listOfEvents.add(justaPerfectDay);
+        listOfEvents.add(anotherGoodDay);
+
+    }
+
+    Map<String, String> emptyEvent1 = Map.of("event", "", "date", LocalDate.now().toString());
+    Map<String, String> blankEvent2 = Map.of("event", "     ", "date", LocalDate.now().toString());
+
+    Map<String, String> nullEvent3 = Map.of("date", LocalDate.now().toString());
+
+    Map<String, String> nullDate4 = Map.of("event", "New Year Party");
+    Map<String, String> emptyEventNullDate5 = Map.of("event", "");
+
+    Map<String, String> emptyEventEmptyDate6 = Map.of("event", "", "date", "");
+
+    Map<String, String> blankDateEmptyEvent7 = Map.of("date", "    ", "event", "");
+
+    Map<String, String> blankDate8 = Map.of("date", "    ", "event", "event\",\"New Year Party");
+    Map<String, String> blankDate9 = Map.of("event", "event\",\"New Year Party", "date", "    ");
+
+    Map<String, String> emptyDate10 = Map.of("date", "", "event", "event\",\"New Year Party");
+    Map<String, String> emptyDate11 = Map.of("event", "event\",\"New Year Party", "date", "");
 
     CheckResult testEndpoint(String url, int status) {
         HttpResponse response = get(url).send();
@@ -101,7 +131,7 @@ public class webCalendarSpringTest extends SpringTest {
 
         }
 
-        if ( response.getStatusCode() == 200) {
+        if (response.getStatusCode() == 200) {
 
             if (!response.getJson().isJsonArray()) {
                 return CheckResult.wrong("Wrong object in response, expected array of JSON but was \n" +
@@ -110,10 +140,10 @@ public class webCalendarSpringTest extends SpringTest {
 
             List<String> eventsToString = new ArrayList<>();
 
-            if(url.equals("/event/today")) {
-                eventsToString=  eventsList.stream().filter(it -> it.date.equals(LocalDate.now().toString())).map(it -> it.toString()).collect(Collectors.toList());
-            }
-            else { eventsToString=  eventsList.stream().map(it -> it.toString()).collect(Collectors.toList());
+            if (url.equals("/event/today")) {
+                eventsToString = eventsList.stream().filter(it -> it.date.equals(LocalDate.now().toString())).map(it -> it.toString()).collect(Collectors.toList());
+            } else {
+                eventsToString = eventsList.stream().map(it -> it.toString()).collect(Collectors.toList());
             }
             eventsToString.stream().forEach(System.out::println);
 
@@ -195,7 +225,7 @@ public class webCalendarSpringTest extends SpringTest {
 
         }
 
-        if ( response.getStatusCode() == 200) {
+        if (response.getStatusCode() == 200) {
 
             if (!response.getJson().isJsonArray()) {
                 return CheckResult.wrong("Wrong object in response, expected array of JSON but was \n" +
@@ -205,11 +235,11 @@ public class webCalendarSpringTest extends SpringTest {
             List<String> eventsToString;
 
 
-                eventsToString = eventsList.stream().filter(it -> LocalDate.parse(it.date).equals(LocalDate.parse(startDay))
-                        ||LocalDate.parse(it.date).isAfter(LocalDate.parse(startDay))
-                        &&(LocalDate.parse(it.date).equals(LocalDate.parse(endDay))
-                        ||LocalDate.parse(it.date).isBefore(LocalDate.parse(endDay)))
-                ).map(it -> it.toString()).collect(Collectors.toList());
+            eventsToString = eventsList.stream().filter(it -> LocalDate.parse(it.date).equals(LocalDate.parse(startDay))
+                    || LocalDate.parse(it.date).isAfter(LocalDate.parse(startDay))
+                    && (LocalDate.parse(it.date).equals(LocalDate.parse(endDay))
+                    || LocalDate.parse(it.date).isBefore(LocalDate.parse(endDay)))
+            ).map(it -> it.toString()).collect(Collectors.toList());
 
             eventsToString.stream().forEach(System.out::println);
 
@@ -257,7 +287,7 @@ public class webCalendarSpringTest extends SpringTest {
 
         }
 
-        if ( response.getStatusCode() == 200) {
+        if (response.getStatusCode() == 200) {
 
             if (!response.getJson().isJsonObject()) {
                 return CheckResult.wrong("Wrong object in response, expected array of JSON but was \n" +
@@ -299,7 +329,7 @@ public class webCalendarSpringTest extends SpringTest {
                 response.getHeaders() + " " + response.getRequest().getLocalUri() + " " + response.getRequest().getMethod()
                 + " " + response.getRequest().getContent());
 
-        eventsList =  eventsList.stream().filter(it -> it.id != id).collect(Collectors.toList());
+        eventsList = eventsList.stream().filter(it -> it.id != id).collect(Collectors.toList());
         return CheckResult.correct();
     }
 
@@ -328,40 +358,47 @@ public class webCalendarSpringTest extends SpringTest {
         }
 
         if (status == 400) {
-           if(body.get("event")==null||(body.get("event").trim().equals("")
+            if (body.get("event") == null || (body.get("event").trim().equals("")
 
-           )) {
-              expect(response.getContent()).asJson().check(
-                      isObject()
-                              .value("message", isObject()
-                                      .value("event","The event name is required!" ))
-
-              );
-
-
-              if(body.get("event")!=null){ System.out.println("WE ARE HERE"+body.get("event").trim()+"<>");}
-              else System.out.println("NULL");
-           }
-           else if (body.get("date")==null||(body.get("date").trim().equals(""))){
+            )) {
                 expect(response.getContent()).asJson().check(
                         isObject()
                                 .value("message", isObject()
-                                        .value("date","The event date with the correct format is required! The correct format is YYYY-MM-DD!" ))
+                                        .value("event", "The event name is required!"))
 
                 );
 
-           }
-           }
+
+                if (body.get("event") != null) {
+                    System.out.println("WE ARE HERE" + body.get("event").trim() + "<>");
+                } else System.out.println("NULL");
+            } else if (body.get("date") == null || (body.get("date").trim().equals(""))) {
+                expect(response.getContent()).asJson().check(
+                        isObject()
+                                .value("message", isObject()
+                                        .value("date", "The event date with the correct format is required! The correct format is YYYY-MM-DD!"))
+
+                );
+
+            }
+        }
 
 
         return CheckResult.correct();
     }
 
-    private int randomReturn( List <Map<String,String>> list) {
-        int toReturn = (int) Math.round(Math.random()*(list.size()-1));
+    private int randomReturn(List<Map<String, String>> list) {
+        int toReturn = (int) Math.round(Math.random() * (list.size() - 1));
         System.out.println(toReturn);
 
         return toReturn;
+    }
+
+    private String randomDate(int maxDays, int mindays) {
+
+        LocalDate now = LocalDate.now();
+
+        return now.plusDays((int) Math.round(Math.random() * (maxDays - mindays) + mindays)).toString();
     }
 
     @DynamicTest
@@ -369,85 +406,77 @@ public class webCalendarSpringTest extends SpringTest {
 
 
             () -> testEndpoint(todayEndPoint, 400), //#1
-            () -> testPostEvent(eventForTest.justToday
-
-            , 200), //#2
-            () -> testPostEvent(eventForTest.justToday, 200), //#3
-
-            () -> testPostEvent( eventForTest.listOfEvents.get(randomReturn(eventForTest.listOfEvents)), 200), //#4
-
+            () -> testPostEvent(justToday, 200), //#2
+            () -> testPostEvent(justToday, 200), //#3
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200), //#4
             () -> testEndpoint(todayEndPoint, 200),//#5
             () -> testEndpoint(eventEndPoint, 200),//#6
-            () -> testPostEvent(Map.of(
-                    "event", "",
-                    "date", LocalDate.now().toString()
-            ), 400), //#7
-            () -> testPostEvent(Map.of(
-                    "event", "     ",
-                    "date", LocalDate.now().toString()
-            ), 400), //#8
-            () -> testPostEvent(Map.of(
-                    "date", LocalDate.now().toString()
-            ), 400), //#9
-            () -> testPostEvent(Map.of(
-                    "event", "New Year Party"
-            ), 400),//#10
-            () -> testPostEvent(Map.of(
-                    "event", ""
-            ), 400),//#11
-            () -> testPostEvent(Map.of(
-                    "event", "",
-                    "date", ""
-            ), 400), //#12
-            () -> testPostEvent(Map.of(
-                    "date", "    ",
-                    "event", ""
 
-            ), 400), //#13
-            () -> testPostEvent(Map.of(
-                    "date", "    ",
-                    "event", "New Year Party"
-            ), 400),//#14
-            () -> testPostEvent(Map.of(
-                    "date", "",
-                    "event", "New Year Party"
-            ), 400),//#15
+            //incorrect body for Post request
+            () -> testPostEvent(emptyEvent1, 400), //#7
+            () -> testPostEvent(blankEvent2, 400), //#8
+            () -> testPostEvent(nullEvent3, 400), //#9
+            () -> testPostEvent(nullDate4, 400), //#10
+            () -> testPostEvent(emptyEventNullDate5, 400), //#11
+            () -> testPostEvent(emptyEventEmptyDate6, 400), //#12
+            () -> testPostEvent(blankDateEmptyEvent7, 400), //#13
+            () -> testPostEvent(blankDate8, 400), //#14
+            () -> testPostEvent(blankDate9, 400), //#15
+            () -> testPostEvent(emptyDate10, 400), //#16
+            () -> testPostEvent(emptyDate11, 400), //#17
 
-//            () -> testEndpoint(eventEndPoint, 200),//#10
-            () -> testEndpoint(todayEndPoint, 200),//#16
-            () -> testEndpoint(eventEndPoint, 200),//#17
+            () -> testEndpoint(todayEndPoint, 200),//#18
+            () -> testEndpoint(eventEndPoint, 200),//#19
 
             () -> testEndpointWithParams(eventEndPoint, 200,
-                    "2020-08-26", LocalDate.now().toString()),//#18
-            () -> testEndpoinById(eventEndPoint, 200, 1),//#19
-            () -> testEndpoinDeleteById(eventEndPoint, 200, 2),//#20
-            () -> testEndpoinById(eventEndPoint, 404, 2),//#21
-            () -> testEndpoinById(eventEndPoint, 200, 1),//#22
-            () -> testEndpoint(todayEndPoint, 200),//#23
-            () -> testEndpoint(eventEndPoint, 200),//#24
-            () -> testEndpoinDeleteById(eventEndPoint, 200, 1),//#25
-            () -> testEndpoinById(eventEndPoint, 404, 1),//#26
-            () -> testEndpoint(todayEndPoint, 400),//#27
-            () -> testEndpoint(eventEndPoint, 200),//#28
+                    randomDate(-300, -5), randomDate(10, 5)),//#20
+            () -> testEndpointWithParams(eventEndPoint, 200,
+                    randomDate(-10, -5), randomDate(200, 5)),//#21
+            () -> testEndpointWithParams(eventEndPoint, 200,
+                    randomDate(-8, -5), randomDate(20, 5)),//#22
 
-            () -> testPostEvent( eventForTest.listOfEvents.get(randomReturn(eventForTest.listOfEvents)), 200),
-            () -> testPostEvent( eventForTest.listOfEvents.get(randomReturn(eventForTest.listOfEvents)), 200),
-            () -> testPostEvent( eventForTest.listOfEvents.get(randomReturn(eventForTest.listOfEvents)), 200),
-            () -> testPostEvent( eventForTest.listOfEvents.get(randomReturn(eventForTest.listOfEvents)), 200),
-            () -> testPostEvent( eventForTest.listOfEvents.get(randomReturn(eventForTest.listOfEvents)), 200),
-            () -> testPostEvent( eventForTest.listOfEvents.get(randomReturn(eventForTest.listOfEvents)), 200),
-            () -> testPostEvent( eventForTest.listOfEvents.get(randomReturn(eventForTest.listOfEvents)), 200),
-            () -> testPostEvent( eventForTest.listOfEvents.get(randomReturn(eventForTest.listOfEvents)), 200),
-            () -> testPostEvent( eventForTest.listOfEvents.get(randomReturn(eventForTest.listOfEvents)), 200),
-
+            () -> testEndpoinById(eventEndPoint, 200, 1),//#23
+            () -> testEndpoinDeleteById(eventEndPoint, 200, 2),//#24
+            () -> testEndpoinById(eventEndPoint, 404, 2),//#25
+            () -> testEndpoinById(eventEndPoint, 200, 1),//#26
+            () -> testEndpoint(todayEndPoint, 200),//#27
             () -> testEndpoint(eventEndPoint, 200),//#28
+            () -> testEndpoinDeleteById(eventEndPoint, 200, 1),//#29
+            () -> testEndpoinById(eventEndPoint, 404, 1),//#30
+            () -> testEndpoint(todayEndPoint, 400),//#31
+            () -> testEndpoint(eventEndPoint, 200),//#32
+
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//33
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//34
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//35
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//36
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//37
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//38
+
+            () -> testEndpoint(eventEndPoint, 200),//#39
+            () -> testEndpointWithParams(eventEndPoint, 200,
+                    randomDate(-300, -5), randomDate(10, 5)),//#40
+            () -> testEndpointWithParams(eventEndPoint, 200,
+                    randomDate(-10, -5), randomDate(200, 5)),//#41
+            this::reloadServer,
+            () -> testEndpointWithParams(eventEndPoint, 200,
+                    randomDate(-8, -5), randomDate(20, 5)),//#42
     };
 
     @Before
-    public  void createEvents() {
-        eventForTest = new EventForTest();
-        eventForTest.listOfEvents.stream().forEach(System.out::println);
+    public void createEvents() {
 
+        listOfEvents.stream().forEach(System.out::println);
+
+    }
+
+    private CheckResult reloadServer() {
+        try {
+            reloadSpring();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex.getMessage());
+        }
+        return CheckResult.correct();
     }
 
 }
