@@ -471,9 +471,10 @@ public class webCalendarSpringTest extends SpringTest {
                     randomDate(-300, -5), randomDate(10, 5)),//#40
             () -> testEndpointWithParams(eventEndPoint, 200,
                     randomDate(-10, -5), randomDate(200, 5)),//#41
-            this::reloadServer,
+            this::reloadServer,//42
             () -> testEndpointWithParams(eventEndPoint, 200,
-                    randomDate(-8, -5), randomDate(20, 5)),//#42
+                    randomDate(-8, -5), randomDate(20, 5)),//#43
+            () -> testEndpointDeleteById(eventEndPoint, 404, 1),//#44
     };
 
     @Before
