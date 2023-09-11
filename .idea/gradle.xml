@@ -31,7 +31,14 @@
             <option value="$PROJECT_DIR$/Web Calendar Spring/stage3/build/reports/tests" />
             <option value="$PROJECT_DIR$/Web Calendar Spring/stage3/build/test-results" />
             <option value="$PROJECT_DIR$/Web Calendar Spring/stage3/build/tmp" />
+            <option value="$PROJECT_DIR$/Web Calendar Spring/stage3/out" />
             <option value="$PROJECT_DIR$/Web Calendar Spring/stage4" />
+            <option value="$PROJECT_DIR$/Web Calendar Spring/stage4/build/classes/java" />
+            <option value="$PROJECT_DIR$/Web Calendar Spring/stage4/build/generated/sources/annotationProcessor/java" />
+            <option value="$PROJECT_DIR$/Web Calendar Spring/stage4/build/generated/sources/headers/java" />
+            <option value="$PROJECT_DIR$/Web Calendar Spring/stage4/build/reports/tests" />
+            <option value="$PROJECT_DIR$/Web Calendar Spring/stage4/build/test-results" />
+            <option value="$PROJECT_DIR$/Web Calendar Spring/stage4/build/tmp" />
             <option value="$PROJECT_DIR$/util" />
           </set>
         </option>

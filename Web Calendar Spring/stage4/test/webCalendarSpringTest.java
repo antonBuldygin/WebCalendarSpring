@@ -520,27 +520,33 @@ public class webCalendarSpringTest extends SpringTest {
             () -> testEndpoint(eventEndPoint, 200),//#31
             () -> testEndpointDeleteById(eventEndPoint, 200, 1),//#32
             () -> testEndpoinById(eventEndPoint, 1),//#33
-            () -> testEndpoint(todayEndPoint, 400),//#34
-            () -> testEndpoint(eventEndPoint, 200),//#35
+            () ->testEndpointDeleteAllById(eventEndPoint),//#34
+            () -> testEndpoint(eventEndPoint, 400),//35
 
-            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//36
-            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//37
-            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//38
-            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//39
+            () -> testEndpoint(todayEndPoint, 400),//#36
+
+            () -> testPostEvent(justToday, 200), //#37
+            () -> testPostEvent(justToday, 200), //#38
+            () -> testEndpoint(todayEndPoint, 200),//#39
+
             () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//40
             () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//41
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//42
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//43
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//44
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//45
 
-            () -> testEndpoint(eventEndPoint, 200),//#42
+            () -> testEndpoint(eventEndPoint, 200),//#46
             () -> testEndpointWithParams(eventEndPoint,
-                    randomDate(-300, -5), randomDate(10, 5)),//#43
+                    randomDate(-300, -5), randomDate(10, 5)),//#47
             () -> testEndpointWithParams(eventEndPoint,
-                    randomDate(-10, -5), randomDate(200, 5)),//#44
-            this::reloadServer,//45
+                    randomDate(-10, -5), randomDate(200, 5)),//#48
+            this::reloadServer,//49
             () -> testEndpointWithParams(eventEndPoint,
-                    randomDate(-8, -5), randomDate(20, 5)),//#46
-            () -> testEndpointDeleteById(eventEndPoint, 404, 1),//#47
-            () ->testEndpointDeleteAllById(eventEndPoint),//#48
-            () -> testEndpoint(eventEndPoint, 400),//#49
+                    randomDate(-8, -5), randomDate(20, 5)),//#50
+            () -> testEndpointDeleteById(eventEndPoint, 404, 1),//#51
+            () ->testEndpointDeleteAllById(eventEndPoint),//#52
+            () -> testEndpoint(eventEndPoint, 400),//#53
 
     };
 

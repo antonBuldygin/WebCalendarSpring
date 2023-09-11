@@ -1,7 +1,5 @@
 type: edu
 files:
-  - name: src/webCalendarSpring/Event.java
-    visible: true
   - name: src/webCalendarSpring/entities/EventEntity.java
     visible: true
   - name: src/webCalendarSpring/Violation.java
@@ -19,6 +17,8 @@ files:
   - name: build.gradle
     visible: true
   - name: src/webCalendarSpring/controllers/EventsController.java
+    visible: true
+  - name: src/webCalendarSpring/Event.java
     visible: true
   - name: test/webCalendarSpringTest.java
     visible: false

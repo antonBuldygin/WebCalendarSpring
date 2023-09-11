@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/event")
 public class EventsController {
 
     private final EventEntityRepository eventEntityRepository;
@@ -25,7 +26,7 @@ public class EventsController {
     }
 
 
-    @GetMapping("/event/today")
+    @GetMapping("/today")
     public ResponseEntity<?> todayEvents() {
 
         String data = "{\"data\":\"There are no events for today!\"}";
@@ -40,7 +41,7 @@ public class EventsController {
 
 
 
-    @PostMapping("/event")
+    @RequestMapping(method = RequestMethod.POST)
     public String createEvent(@RequestBody EventEntity event) {
 
         eventEntityRepository.save(event);
@@ -52,7 +53,7 @@ public class EventsController {
     }
 
 
-    @GetMapping("/event/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> findEventById(@PathVariable long id) {
 
         Optional<EventEntity> byId = eventEntityRepository.findById(id);
@@ -69,7 +70,7 @@ public class EventsController {
         return ResponseEntity.ok().body(foundById);
     }
 
-    @GetMapping("/event")
+    @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> allEventsBetweenTwoDates(@RequestParam(required = false) String start_time,
                                                       @RequestParam(required = false) String end_time) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyy-MM-dd");
@@ -102,10 +103,9 @@ public class EventsController {
         return ResponseEntity.ok().body(eventEntities);
     }
 
-    @DeleteMapping("/event/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteEventById(@PathVariable long id) {
         Optional<EventEntity> byId = eventEntityRepository.findById(id);
-        EventEntity foundById = new EventEntity();
 
         if (byId.isEmpty()) {
             return new ResponseEntity<> ("{\n" +
@@ -113,7 +113,7 @@ public class EventsController {
                     "}",HttpStatus.NOT_FOUND);
         }
 
-        foundById = byId.get();
+
         eventEntityRepository.deleteById(id);
         return ResponseEntity.ok().body("{\n" +
                 "    \"message\": \"The event has been deleted!\"\n" +

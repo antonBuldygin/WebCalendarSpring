@@ -126,7 +126,6 @@ public class webCalendarSpringTest extends SpringTest {
                 "\n " + response.getRequest().getLocalUri() + "\n " + response.getRequest().getMethod());
 
 
-
         if (response.getStatusCode() == 400 && url.equals(todayEndPoint)) {
 
             expect(response.getContent()).asJson().check(
@@ -232,7 +231,7 @@ public class webCalendarSpringTest extends SpringTest {
 
         HttpResponse response = post(eventEndPoint, jsonBody).send();
         checkStatusCode(response, status);
-        System.out.println(response.getContent() + "\n "  + response.getStatusCode() + "\n "
+        System.out.println(response.getContent() + "\n " + response.getStatusCode() + "\n "
                 + response.getRequest().getLocalUri() + "\n " + response.getRequest().getMethod()
                 + "\n" + response.getRequest().getContent());
         if (status == 200) {
@@ -260,7 +259,6 @@ public class webCalendarSpringTest extends SpringTest {
                                         .value("event", "The event name is required!"))
 
                 );
-
 
 
             } else if (body.get("date") == null || (body.get("date").trim().equals(""))) {
@@ -314,8 +312,9 @@ public class webCalendarSpringTest extends SpringTest {
 
             () -> testPostEvent(justToday, 200), //#14
             () -> testPostEvent(justToday, 200), //#15
-            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200), //#16
-            () -> testEndpoint(todayEndPoint, 200),//#17
+            () -> testEndpoint(todayEndPoint, 200),//#16
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200), //#17
+
             () -> testEndpoint(eventEndPoint, 200),//#18
 
 
@@ -328,8 +327,7 @@ public class webCalendarSpringTest extends SpringTest {
 
             () -> testEndpoint(eventEndPoint, 200),//#25
             this::reloadServer,//26
-            () -> testEndpoint(todayEndPoint, 200),//#27
-            () -> testEndpoint(eventEndPoint, 200),//#28
+            () -> testEndpoint(eventEndPoint, 200),//#27
     };
 
     @Before
