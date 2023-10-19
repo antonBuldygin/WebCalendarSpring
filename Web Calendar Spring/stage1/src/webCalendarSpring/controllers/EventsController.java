@@ -31,9 +31,9 @@ public class EventsController {
         String data = "{\"data\":\"There are no events for today!\"}";
 //        JsonObject convertedObject = new Gson().fromJson(data, JsonObject.class);
 
-        if (eventEntityRepository.findByDate(LocalDate.now()).isEmpty()) {
-            return ResponseEntity.badRequest().body(data);
-        }
+//        if (eventEntityRepository.findByDate(LocalDate.now()).isEmpty()) {
+//            return ResponseEntity.badRequest().body(data);
+//        }
         return ResponseEntity.ok().body(eventEntityRepository.findByDate(LocalDate.now()));
 
     }

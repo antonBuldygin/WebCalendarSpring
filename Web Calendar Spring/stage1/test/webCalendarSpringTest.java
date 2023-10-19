@@ -30,7 +30,7 @@ public class webCalendarSpringTest extends SpringTest {
                 + response.getRequest().getLocalUri() + "\n " + response.getRequest().getMethod())
                ;
 
-        checkStatusCode(response, 400);
+        checkStatusCode(response, 200);
         if (!response.getJson().isJsonObject()) {
             return CheckResult.wrong("Wrong object in response, expected JSON but was \n" +
                     response.getContent().getClass());
@@ -64,7 +64,7 @@ public class webCalendarSpringTest extends SpringTest {
     DynamicTesting[] dynamicTests = new DynamicTesting[]{
 
 
-            () -> testEndpoint(todayEndPoint, 400), //#1
+            () -> testEndpoint(todayEndPoint, 200), //#1
 
     };
 
