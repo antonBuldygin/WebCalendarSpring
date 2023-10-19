@@ -34,7 +34,7 @@ public class EventsController {
 //        if (eventEntityRepository.findByDate(LocalDate.now()).isEmpty()) {
 //            return ResponseEntity.badRequest().body(data);
 //        }
-        return ResponseEntity.ok().body(eventEntityRepository.findByDate(LocalDate.now()));
+        return ResponseEntity.ok().body(data);
 
     }
 
