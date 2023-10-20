@@ -11,9 +11,7 @@ import webCalendarSpring.repositories.EventEntityRepository;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class EventsController {
@@ -29,12 +27,9 @@ public class EventsController {
     public ResponseEntity<?> todayEvents() {
 
         String data = "{\"data\":\"There are no events for today!\"}";
-//        JsonObject convertedObject = new Gson().fromJson(data, JsonObject.class);
+        Map<String,String> response = Map.of("data", "There are no events for today!");
 
-//        if (eventEntityRepository.findByDate(LocalDate.now()).isEmpty()) {
-//            return ResponseEntity.badRequest().body(data);
-//        }
-        return ResponseEntity.ok().body(data);
+        return new ResponseEntity<>(response, HttpStatus.OK);
 
     }
 

@@ -108,39 +108,75 @@ public class webCalendarSpringTest extends SpringTest {
     Map<String, String> emptyDate10 = Map.of("date", "", "event", "New Year Party");
     Map<String, String> emptyDate11 = Map.of("event", "New Year Party", "date", "");
 
-    CheckResult testEndpoint(String url, int status) {
+    CheckResult todayEndPointTest(String url, int status) {
         HttpResponse response = get(url).send();
+
         checkStatusCode(response, status);
-        System.out.println(response.getContent() + "\n "  + response.getStatusCode()
-                + "\n " + response.getRequest().getLocalUri()
-                + "\n " + response.getRequest().getMethod());
 
-
-        if (eventsList.size() == 0 && !response.getJson().isJsonObject()) {
+        if (count > 0 && !response.getJson().isJsonArray()) {
             return CheckResult.wrong("Wrong object in response, expected JSON but was \n" +
                     response.getContent().getClass());
 
         }
 
+        System.out.println(response.getContent() + "\n " + response.getStatusCode() +
+                "\n " + response.getRequest().getLocalUri() + "\n " + response.getRequest().getMethod());
 
-        if (response.getStatusCode() == 400 && url.equals(todayEndPoint)) {
+
+        if (count == 0) {
 
             expect(response.getContent()).asJson().check(
                     isObject()
                             .value("data", "There are no events for today!")
 
             );
+        }
+
+        List<String> eventsToString;
+
+        if (count > 0) {
+            eventsToString = eventsList.stream().filter(it -> it.date.equals(LocalDate.now().toString())).map(it -> it.toString()).collect(Collectors.toList());
+//                eventsToString.stream().forEach(System.out::println);
+
+
+
+
+            eventsToString = eventsList.stream().map(it -> it.toString()).collect(Collectors.toList());
+
+            eventsToString.stream().forEach(System.out::println);
+
+            String convertJsonToString = convert(eventsToString);
+            JsonArray correctJson = getJson(convertJsonToString).getAsJsonArray();
+
+            JsonArray responseJson = getJson(response.getContent()).getAsJsonArray();
+
+            if (responseJson.size() != correctJson.size()) {
+                return CheckResult.wrong("Correct json array size should be " +
+                        correctJson.size() + "\n" +
+                        "Response array size is: " + responseJson.size() + "\n");
+            }
+
+
+            for (int i = 0; i < responseJson.size(); i++) {
+
+
+                expect(responseJson.get(i).getAsJsonObject().toString()).asJson()
+                        .check(isObject()
+                                .value("id", correctJson.get(i).getAsJsonObject().get("id").getAsInt())
+                                .value("event", correctJson.get(i).getAsJsonObject().get("event").getAsString())
+                                .value("date", correctJson.get(i).getAsJsonObject().get("date").getAsString()));
+
+            }
 
         }
-        if (response.getStatusCode() == 400 && url.equals(eventEndPoint)) {
 
-            expect(response.getContent()).asJson().check(
-                    isObject()
-                            .value("data", "There are no events!")
+        return CheckResult.correct();
+    }
 
-            );
+    CheckResult eventEndPointTest(String url, int status) {
+        HttpResponse response = get(url).send();
 
-        }
+        checkStatusCode(response, status);
 
         if (response.getStatusCode() == 200) {
 
@@ -151,24 +187,8 @@ public class webCalendarSpringTest extends SpringTest {
 
             List<String> eventsToString;
 
-            if (url.equals("/event/today")) {
-                eventsToString = eventsList.stream().filter(it -> it.date.equals(LocalDate.now().toString())).map(it -> it.toString()).collect(Collectors.toList());
-//                eventsToString.stream().forEach(System.out::println);
+            eventsToString = eventsList.stream().map(it -> it.toString()).collect(Collectors.toList());
 
-                if (eventsToString.size() == 0) {
-                    checkStatusCode(response, 400);
-                } else {
-                    checkStatusCode(response, 200);
-                }
-
-            } else {
-                eventsToString = eventsList.stream().map(it -> it.toString()).collect(Collectors.toList());
-                if (eventsToString.size() == 0) {
-                    checkStatusCode(response, 400);
-                } else {
-                    checkStatusCode(response, 200);
-                }
-            }
             eventsToString.stream().forEach(System.out::println);
 
             String convertJsonToString = convert(eventsToString);
@@ -197,9 +217,9 @@ public class webCalendarSpringTest extends SpringTest {
         }
 
 
-
         return CheckResult.correct();
     }
+
 
     private static void checkStatusCode(HttpResponse resp, int status) {
         if (resp.getStatusCode() != status) {
@@ -225,27 +245,28 @@ public class webCalendarSpringTest extends SpringTest {
     CheckResult testEndpointWithParams(String url, String startDay, String endDay) {
         HttpResponse response = get(url + "?start_time=" + startDay + "&end_time=" + endDay).send();
 
+
         System.out.println(response.getContent() + "\n " + response.getStatusCode()
                 + "\n " + response.getRequest().getLocalUri()
                 + "\n " + response.getRequest().getMethod());
 
 
-        if (count == 0 && !response.getJson().isJsonObject()) {
-            return CheckResult.wrong("Wrong object in response, expected JSON but was \n" +
+        if (count == 0 && !response.getJson().isJsonArray()) {
+            return CheckResult.wrong("Wrong object in response, expected JSON Array but was \n" +
                     response.getContent().getClass());
 
         }
 
 
-        if (response.getStatusCode() == 400) {
-
-            expect(response.getContent()).asJson().check(
-                    isObject()
-                            .value("data", "There are no events!")
-
-            );
-
-        }
+//        if (response.getStatusCode() == 400) {
+//
+//            expect(response.getContent()).asJson().check(
+//                    isObject()
+//                            .value("data", "There are no events!")
+//
+//            );
+//
+//        }
 
         if (response.getStatusCode() == 200) {
 
@@ -477,15 +498,15 @@ public class webCalendarSpringTest extends SpringTest {
     DynamicTesting[] dynamicTests = new DynamicTesting[]{
 
 
-            () -> testEndpoint(todayEndPoint, 400), //#1
-            () -> testEndpoint(eventEndPoint, 400), //#2
+            () -> todayEndPointTest(todayEndPoint, 200), //#1
+            () -> eventEndPointTest(eventEndPoint, 204), //#2
             () -> testEndpointWithParams(eventEndPoint,
                     randomDate(-300, -5), randomDate(10, 5)),//#3
             () -> testPostEvent(justToday, 200), //#4
             () -> testPostEvent(justToday, 200), //#5
             () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200), //#6
-            () -> testEndpoint(todayEndPoint, 200),//#7
-            () -> testEndpoint(eventEndPoint, 200),//#8
+            () -> todayEndPointTest(todayEndPoint, 200),//#7
+            () -> eventEndPointTest(eventEndPoint, 200),//#8
             () -> testEndpointWithParams(eventEndPoint,
                     randomDate(-300, -5), randomDate(10, 5)),//#9
 
@@ -502,8 +523,8 @@ public class webCalendarSpringTest extends SpringTest {
             () -> testPostEvent(emptyDate10, 400), //#19
             () -> testPostEvent(emptyDate11, 400), //#20
 
-            () -> testEndpoint(todayEndPoint, 200),//#21
-            () -> testEndpoint(eventEndPoint, 200),//#22
+            () -> todayEndPointTest(todayEndPoint, 200),//#21
+            () -> eventEndPointTest(eventEndPoint, 200),//#22
 
             () -> testEndpointWithParams(eventEndPoint,
                     randomDate(-300, -5), randomDate(10, 5)),//#23
@@ -516,18 +537,18 @@ public class webCalendarSpringTest extends SpringTest {
             () -> testEndpointDeleteById(eventEndPoint, 200, 2),//#27
             () -> testEndpoinById(eventEndPoint, 2),//#28
             () -> testEndpoinById(eventEndPoint, 1),//#29
-            () -> testEndpoint(todayEndPoint, 200),//#30
-            () -> testEndpoint(eventEndPoint, 200),//#31
+            () -> todayEndPointTest(todayEndPoint, 200),//#30
+            () -> eventEndPointTest(eventEndPoint, 200),//#31
             () -> testEndpointDeleteById(eventEndPoint, 200, 1),//#32
             () -> testEndpoinById(eventEndPoint, 1),//#33
             () ->testEndpointDeleteAllById(eventEndPoint),//#34
-            () -> testEndpoint(eventEndPoint, 400),//35
+            () -> eventEndPointTest(eventEndPoint, 204),//35
 
-            () -> testEndpoint(todayEndPoint, 400),//#36
+            () -> todayEndPointTest(todayEndPoint, 200),//#36
 
             () -> testPostEvent(justToday, 200), //#37
             () -> testPostEvent(justToday, 200), //#38
-            () -> testEndpoint(todayEndPoint, 200),//#39
+            () -> todayEndPointTest(todayEndPoint, 200),//#39
 
             () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//40
             () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//41
@@ -536,7 +557,7 @@ public class webCalendarSpringTest extends SpringTest {
             () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//44
             () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//45
 
-            () -> testEndpoint(eventEndPoint, 200),//#46
+            () -> eventEndPointTest(eventEndPoint, 200),//#46
             () -> testEndpointWithParams(eventEndPoint,
                     randomDate(-300, -5), randomDate(10, 5)),//#47
             () -> testEndpointWithParams(eventEndPoint,
@@ -546,7 +567,7 @@ public class webCalendarSpringTest extends SpringTest {
                     randomDate(-8, -5), randomDate(20, 5)),//#50
             () -> testEndpointDeleteById(eventEndPoint, 404, 1),//#51
             () ->testEndpointDeleteAllById(eventEndPoint),//#52
-            () -> testEndpoint(eventEndPoint, 400),//#53
+            () -> eventEndPointTest(eventEndPoint, 204),//#53
 
     };
 

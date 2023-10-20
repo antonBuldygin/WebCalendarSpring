@@ -33,7 +33,7 @@ public class EventsController {
 
 
         if (eventEntityRepository.findByDate(LocalDate.now()).isEmpty()) {
-            return ResponseEntity.badRequest().body(data);
+            return ResponseEntity.ok().body(data);
         }
         return ResponseEntity.ok().body(eventEntityRepository.findByDate(LocalDate.now()));
 
@@ -78,7 +78,7 @@ public class EventsController {
         if (start_time == null || end_time == null || start_time == "" || end_time == "") {
             String data = "{\"data\":\"There are no events!\"}";
             if (eventEntityRepository.findAll().isEmpty()) {
-                return ResponseEntity.badRequest().body(data);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
             return ResponseEntity.ok().body(eventEntityRepository.findAll());
 
@@ -96,7 +96,7 @@ public class EventsController {
         if (eventEntity.isEmpty() || eventEntities.size() == 0) {
             String data = "{\"data\":\"There are no events!\"}";
 
-            return ResponseEntity.badRequest().body(data);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
 

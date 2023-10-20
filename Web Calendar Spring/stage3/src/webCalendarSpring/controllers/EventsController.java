@@ -32,7 +32,7 @@ public class EventsController {
 
 
         if (eventEntityRepository.findByDate(LocalDate.now()).isEmpty()) {
-            return ResponseEntity.badRequest().body(data);
+            return ResponseEntity.ok().body(data);
         }
         return ResponseEntity.ok().body(eventEntityRepository.findByDate(LocalDate.now()));
 
@@ -52,22 +52,22 @@ public class EventsController {
     }
 
 
-    @GetMapping("/event/{id}")
-    public ResponseEntity<?> findEventById(@PathVariable long id) {
-
-        Optional<EventEntity> byId = eventEntityRepository.findById(id);
-        EventEntity foundById = new EventEntity();
-        if (byId.isPresent()) {
-            foundById = byId.get();
-        }
-        if (byId.isEmpty()) {
-            return new ResponseEntity<> ("{\n" +
-                    "    \"message\": \"The event doesn't exist!\"\n" +
-                    "}",HttpStatus.NOT_FOUND);
-        }
-
-        return ResponseEntity.ok().body(foundById);
-    }
+//    @GetMapping("/event/{id}")
+//    public ResponseEntity<?> findEventById(@PathVariable long id) {
+//
+//        Optional<EventEntity> byId = eventEntityRepository.findById(id);
+//        EventEntity foundById = new EventEntity();
+//        if (byId.isPresent()) {
+//            foundById = byId.get();
+//        }
+//        if (byId.isEmpty()) {
+//            return new ResponseEntity<> ("{\n" +
+//                    "    \"message\": \"The event doesn't exist!\"\n" +
+//                    "}",HttpStatus.NOT_FOUND);
+//        }
+//
+//        return ResponseEntity.ok().body(foundById);
+//    }
 
     @GetMapping("/event")
     public ResponseEntity<?> allEventsBetweenTwoDates(@RequestParam(required = false) String start_time,
@@ -77,7 +77,7 @@ public class EventsController {
         if (start_time == null || end_time == null || start_time == "" || end_time == "") {
             String data = "{\"data\":\"There are no events!\" } ";
             if (eventEntityRepository.findAll().isEmpty()) {
-                return ResponseEntity.badRequest().body(data);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
             return ResponseEntity.ok().body(eventEntityRepository.findAll());
 
@@ -95,30 +95,30 @@ public class EventsController {
         if (eventEntity.isEmpty() || eventEntities.size() == 0) {
             String data = "{\"data\":\"There are no events!\" } ";
 
-            return ResponseEntity.badRequest().body(data);
+            return ResponseEntity.ok().body(data);
         }
 
 
         return ResponseEntity.ok().body(eventEntities);
     }
 
-    @DeleteMapping("/event/{id}")
-    public ResponseEntity<?> deleteEventById(@PathVariable long id) {
-        Optional<EventEntity> byId = eventEntityRepository.findById(id);
-        EventEntity foundById = new EventEntity();
-
-        if (byId.isEmpty()) {
-            return new ResponseEntity<> ("{\n" +
-                    "    \"message\": \"The event doesn't exist!\"\n" +
-                    "}",HttpStatus.NOT_FOUND);
-        }
-
-        foundById = byId.get();
-        eventEntityRepository.deleteById(id);
-        return ResponseEntity.ok().body("{\n" +
-                "    \"message\": \"The event has been deleted!\"\n" +
-                "}");
-
-
-    }
+//    @DeleteMapping("/event/{id}")
+//    public ResponseEntity<?> deleteEventById(@PathVariable long id) {
+//        Optional<EventEntity> byId = eventEntityRepository.findById(id);
+//        EventEntity foundById = new EventEntity();
+//
+//        if (byId.isEmpty()) {
+//            return new ResponseEntity<> ("{\n" +
+//                    "    \"message\": \"The event doesn't exist!\"\n" +
+//                    "}",HttpStatus.NOT_FOUND);
+//        }
+//
+//        foundById = byId.get();
+//        eventEntityRepository.deleteById(id);
+//        return ResponseEntity.ok().body("{\n" +
+//                "    \"message\": \"The event has been deleted!\"\n" +
+//                "}");
+//
+//
+//    }
 }
