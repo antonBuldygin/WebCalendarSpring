@@ -391,10 +391,27 @@ public class webCalendarSpringTest extends SpringTest {
         JsonObject responseJson = getJson(response.getContent()).getAsJsonObject();
 
         if (status == 200) {
+            List<String> eventsToString;
+
+
+            eventsToString = eventsList.stream().filter(it -> it.id == id).map(it -> it.toString()).collect(Collectors.toList());
+
+            eventsToString.stream().forEach(System.out::println);
+
+            String convertJsonToString = eventsToString.get(0).toString();
+
+
+            JsonObject correctJson = getJson(convertJsonToString).getAsJsonObject();
+
+
+
+
             expect(responseJson.toString()).asJson()
                     .check(isObject()
-                            .value("message", "The event has been deleted!")
-                    );
+                            .value("id", correctJson.getAsJsonObject().get("id").getAsInt())
+                            .value("event", correctJson.getAsJsonObject().get("event").getAsString())
+                            .value("date", correctJson.getAsJsonObject().get("date").getAsString()));
+
         }
 
         if (status == 404) {

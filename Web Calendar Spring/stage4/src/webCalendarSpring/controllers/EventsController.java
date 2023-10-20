@@ -106,18 +106,20 @@ public class EventsController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteEventById(@PathVariable long id) {
         Optional<EventEntity> byId = eventEntityRepository.findById(id);
-
+        EventEntity eventEntity;
         if (byId.isEmpty()) {
             return new ResponseEntity<> ("{\n" +
                     "    \"message\": \"The event doesn't exist!\"\n" +
                     "}",HttpStatus.NOT_FOUND);
         }
+        else {
+            eventEntity = byId.get();
+            System.out.println(eventEntity);
+        }
 
 
         eventEntityRepository.deleteById(id);
-        return ResponseEntity.ok().body("{\n" +
-                "    \"message\": \"The event has been deleted!\"\n" +
-                "}");
+        return ResponseEntity.ok().body(eventEntity);
 
 
     }
