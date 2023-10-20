@@ -113,8 +113,8 @@ public class webCalendarSpringTest extends SpringTest {
 
         checkStatusCode(response, status);
 
-        if (count > 0 && !response.getJson().isJsonArray()) {
-            return CheckResult.wrong("Wrong object in response, expected JSON but was \n" +
+        if (eventsList.size() > 0 && !response.getJson().isJsonArray()) {
+            return CheckResult.wrong("Wrong object in response, expected JSON Array but was \n" +
                     response.getContent().getClass());
 
         }
@@ -123,7 +123,7 @@ public class webCalendarSpringTest extends SpringTest {
                 "\n " + response.getRequest().getLocalUri() + "\n " + response.getRequest().getMethod());
 
 
-        if (count == 0) {
+        if (eventsList.size()  == 0) {
 
             expect(response.getContent()).asJson().check(
                     isObject()
@@ -134,14 +134,10 @@ public class webCalendarSpringTest extends SpringTest {
 
         List<String> eventsToString;
 
-        if (count > 0) {
+        if (eventsList.size()  > 0) {
             eventsToString = eventsList.stream().filter(it -> it.date.equals(LocalDate.now().toString())).map(it -> it.toString()).collect(Collectors.toList());
 //                eventsToString.stream().forEach(System.out::println);
 
-
-
-
-            eventsToString = eventsList.stream().map(it -> it.toString()).collect(Collectors.toList());
 
             eventsToString.stream().forEach(System.out::println);
 
@@ -251,12 +247,19 @@ public class webCalendarSpringTest extends SpringTest {
                 + "\n " + response.getRequest().getMethod());
 
 
-        if (count == 0 && !response.getJson().isJsonArray()) {
-            return CheckResult.wrong("Wrong object in response, expected JSON Array but was \n" +
-                    response.getContent().getClass());
+//        if (count == 0 && !response.getJson().isJsonArray()) {
+//            return CheckResult.wrong("Wrong object in response, expected JSON Array but was \n" +
+//                    response.getContent().getClass());
+//
+//        }
+        if (eventsList.size() == 0 && + response.getStatusCode()!=204) {
+            return CheckResult.wrong(response.getRequest().getMethod() + " " +
+                    response.getRequest().getLocalUri() +
+                    " should respond with status code 204, " +
+                    "responded: " + response.getStatusCode() + "\n\n" +
+                    "Response body:\n\n" + response.getContent());
 
         }
-
 
 //        if (response.getStatusCode() == 400) {
 //
@@ -287,7 +290,7 @@ public class webCalendarSpringTest extends SpringTest {
             eventsToString.stream().forEach(System.out::println);
 
             if (eventsToString.size() == 0) {
-                checkStatusCode(response, 400);
+                checkStatusCode(response, 204);
             }
             String convertJsonToString = convert(eventsToString);
             JsonArray correctJson = getJson(convertJsonToString).getAsJsonArray();
@@ -568,6 +571,7 @@ public class webCalendarSpringTest extends SpringTest {
             () -> testEndpointDeleteById(eventEndPoint, 404, 1),//#51
             () ->testEndpointDeleteAllById(eventEndPoint),//#52
             () -> eventEndPointTest(eventEndPoint, 204),//#53
+            ()-> todayEndPointTest(todayEndPoint,200)
 
     };
 

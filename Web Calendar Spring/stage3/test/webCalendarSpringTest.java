@@ -142,10 +142,6 @@ public class webCalendarSpringTest extends SpringTest {
 //                eventsToString.stream().forEach(System.out::println);
 
 
-
-
-            eventsToString = eventsList.stream().map(it -> it.toString()).collect(Collectors.toList());
-
             eventsToString.stream().forEach(System.out::println);
 
             String convertJsonToString = convert(eventsToString);
@@ -349,6 +345,7 @@ public class webCalendarSpringTest extends SpringTest {
             () -> eventEndPointTest(eventEndPoint, 200),//#25
             this::reloadServer,//26
             () -> eventEndPointTest(eventEndPoint, 200),//#27
+            () -> todayEndPointTest(todayEndPoint, 200), //#1
     };
 
     @Before
