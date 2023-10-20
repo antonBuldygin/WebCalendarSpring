@@ -588,7 +588,7 @@ public class webCalendarSpringTest extends SpringTest {
             () -> testEndpointDeleteById(eventEndPoint, 404, 1),//#51
             () ->testEndpointDeleteAllById(eventEndPoint),//#52
             () -> eventEndPointTest(eventEndPoint, 204),//#53
-            ()-> todayEndPointTest(todayEndPoint,200)
+            ()-> todayEndPointTest(todayEndPoint,200)//#54
 
     };
 
