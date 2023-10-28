@@ -12,8 +12,6 @@ files:
     visible: true
   - name: resources/application.properties
     visible: true
-  - name: src/webCalendarSpring/ConstrainsViolation.java
-    visible: true
   - name: src/webCalendarSpring/ValidationErrorResponse.java
     visible: true
   - name: build.gradle
@@ -22,3 +20,5 @@ files:
     visible: true
   - name: test/webCalendarSpringTest.java
     visible: false
+  - name: src/webCalendarSpring/ControllerExceptionHandler.java
+    visible: true

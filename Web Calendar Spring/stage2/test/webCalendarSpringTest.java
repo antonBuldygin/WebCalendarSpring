@@ -156,27 +156,13 @@ public class webCalendarSpringTest extends SpringTest {
                     );
         }
 
-        if (status == 400) {
-            if (body.get("event") == null || (body.get("event").trim().equals("")
+        if (status == 400 && String.valueOf(response.getContent()).length() != 0) {
 
-            )) {
-                expect(response.getContent()).asJson().check(
-                        isObject()
-                                .value("message", isObject()
-                                        .value("event", "The event name is required!"))
-
-                );
-
-
-            } else if (body.get("date") == null || (body.get("date").trim().equals(""))) {
-                expect(response.getContent()).asJson().check(
-                        isObject()
-                                .value("message", isObject()
-                                        .value("date", "The event date with the correct format is required! The correct format is YYYY-MM-DD!"))
-
-                );
-
-            }
+            throw new WrongAnswer(response.getRequest().getMethod() + " " +
+                    response.getRequest().getLocalUri() +
+                    " responded with status code " + status + " and empty Response body, " +
+                    "responded: " + response.getStatusCode() +
+                    " Response body: " + response.getContent());
         }
 
 

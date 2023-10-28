@@ -1,6 +1,7 @@
 package webCalendarSpring.controllers;
 
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -28,12 +30,14 @@ public class EventsController {
     @GetMapping("/event/today")
     public ResponseEntity<?> todayEvents() {
 
-        String data = "{\"data\":\"There are no events for today!\"}";
+//        String data = "{\"data\":\"There are no events for today!\"}";
 //        JsonObject convertedObject = new Gson().fromJson(data, JsonObject.class);
 
-        if (eventEntityRepository.findByDate(LocalDate.now()).isEmpty()) {
-            return ResponseEntity.ok().body(data);
-        }
+        //        String data = "{\"data\":\"There are no events for today!\"}";
+        List<Map<String,String>> response = new ArrayList<>();
+//       response.add(Map.of("f","d"));
+
+//        return new ResponseEntity<>(response, HttpStatus.OK);
         return ResponseEntity.ok().body(eventEntityRepository.findByDate(LocalDate.now()));
 
     }
@@ -41,7 +45,7 @@ public class EventsController {
 
 
     @PostMapping("/event")
-    public String createEvent(@RequestBody EventEntity event) {
+    public String createEvent(@Valid @RequestBody EventEntity event) {
 
         eventEntityRepository.save(event);
         return "{ \n" +

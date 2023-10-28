@@ -26,8 +26,9 @@ public class EventsController {
     @GetMapping("/event/today")
     public ResponseEntity<?> todayEvents() {
 
-        String data = "{\"data\":\"There are no events for today!\"}";
-        Map<String,String> response = Map.of("data", "There are no events for today!");
+//        String data = "{\"data\":\"There are no events for today!\"}";
+       List< Map<String,String>> response = new ArrayList<>();
+//       response.add(Map.of("f","d"));
 
         return new ResponseEntity<>(response, HttpStatus.OK);
 

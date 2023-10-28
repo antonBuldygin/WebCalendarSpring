@@ -29,12 +29,12 @@ public class EventsController {
     @GetMapping("/today")
     public ResponseEntity<?> todayEvents() {
 
-        String data = "{\"data\":\"There are no events for today!\"}";
-
-
-        if (eventEntityRepository.findByDate(LocalDate.now()).isEmpty()) {
-            return ResponseEntity.ok().body(data);
-        }
+//        String data = "{\"data\":\"There are no events for today!\"}";
+//
+//
+//        if (eventEntityRepository.findByDate(LocalDate.now()).isEmpty()) {
+//            return ResponseEntity.ok().body(data);
+//        }
         return ResponseEntity.ok().body(eventEntityRepository.findByDate(LocalDate.now()));
 
     }
@@ -42,7 +42,7 @@ public class EventsController {
 
 
     @RequestMapping(method = RequestMethod.POST)
-    public String createEvent(@RequestBody EventEntity event) {
+    public String createEvent(@Valid @RequestBody EventEntity event) {
 
         eventEntityRepository.save(event);
         return "{ \n" +

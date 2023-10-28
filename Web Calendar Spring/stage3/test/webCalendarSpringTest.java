@@ -116,8 +116,8 @@ public class webCalendarSpringTest extends SpringTest {
 
         checkStatusCode(response, status);
 
-        if (count > 0 && !response.getJson().isJsonArray()) {
-            return CheckResult.wrong("Wrong object in response, expected JSON but was \n" +
+        if (!response.getJson().isJsonArray()) {
+            return CheckResult.wrong("Wrong object in response, expected JSON Array but was \n" +
                     response.getContent().getClass());
 
         }
@@ -126,48 +126,47 @@ public class webCalendarSpringTest extends SpringTest {
                 "\n " + response.getRequest().getLocalUri() + "\n " + response.getRequest().getMethod());
 
 
-        if (count == 0) {
-
-            expect(response.getContent()).asJson().check(
-                    isObject()
-                            .value("data", "There are no events for today!")
-
-            );
-        }
+//        if (eventsList.size()  == 0) {
+//
+//            expect(response.getContent()).asJson().check(
+//                    isObject()
+//                            .value("data", "There are no events for today!")
+//
+//            );
+//        }
 
         List<String> eventsToString;
 
-        if (count > 0) {
-            eventsToString = eventsList.stream().filter(it -> it.date.equals(LocalDate.now().toString())).map(it -> it.toString()).collect(Collectors.toList());
+
+        eventsToString = eventsList.stream().filter(it -> it.date.equals(LocalDate.now().toString())).map(it -> it.toString()).collect(Collectors.toList());
 //                eventsToString.stream().forEach(System.out::println);
 
 
-            eventsToString.stream().forEach(System.out::println);
+        eventsToString.stream().forEach(System.out::println);
 
-            String convertJsonToString = convert(eventsToString);
-            JsonArray correctJson = getJson(convertJsonToString).getAsJsonArray();
+        String convertJsonToString = convert(eventsToString);
+        JsonArray correctJson = getJson(convertJsonToString).getAsJsonArray();
 
-            JsonArray responseJson = getJson(response.getContent()).getAsJsonArray();
+        JsonArray responseJson = getJson(response.getContent()).getAsJsonArray();
 
-            if (responseJson.size() != correctJson.size()) {
-                return CheckResult.wrong("Correct json array size should be " +
-                        correctJson.size() + "\n" +
-                        "Response array size is: " + responseJson.size() + "\n");
-            }
-
-
-            for (int i = 0; i < responseJson.size(); i++) {
+        if (responseJson.size() != correctJson.size()) {
+            return CheckResult.wrong("Correct json array size should be " +
+                    correctJson.size() + "\n" +
+                    "Response array size is: " + responseJson.size() + "\n");
+        }
 
 
-                expect(responseJson.get(i).getAsJsonObject().toString()).asJson()
-                        .check(isObject()
-                                .value("id", correctJson.get(i).getAsJsonObject().get("id").getAsInt())
-                                .value("event", correctJson.get(i).getAsJsonObject().get("event").getAsString())
-                                .value("date", correctJson.get(i).getAsJsonObject().get("date").getAsString()));
+        for (int i = 0; i < responseJson.size(); i++) {
 
-            }
+
+            expect(responseJson.get(i).getAsJsonObject().toString()).asJson()
+                    .check(isObject()
+                            .value("id", correctJson.get(i).getAsJsonObject().get("id").getAsInt())
+                            .value("event", correctJson.get(i).getAsJsonObject().get("event").getAsString())
+                            .value("date", correctJson.get(i).getAsJsonObject().get("date").getAsString()));
 
         }
+
 
         return CheckResult.correct();
     }
@@ -266,27 +265,13 @@ public class webCalendarSpringTest extends SpringTest {
                     );
         }
 
-        if (status == 400) {
-            if (body.get("event") == null || (body.get("event").trim().equals("")
+        if (status == 400 && String.valueOf(response.getContent()).length() != 0) {
 
-            )) {
-                expect(response.getContent()).asJson().check(
-                        isObject()
-                                .value("message", isObject()
-                                        .value("event", "The event name is required!"))
-
-                );
-
-
-            } else if (body.get("date") == null || (body.get("date").trim().equals(""))) {
-                expect(response.getContent()).asJson().check(
-                        isObject()
-                                .value("message", isObject()
-                                        .value("date", "The event date with the correct format is required! The correct format is YYYY-MM-DD!"))
-
-                );
-
-            }
+            throw new WrongAnswer(response.getRequest().getMethod() + " " +
+                    response.getRequest().getLocalUri() +
+                    " responded with status code " + status + " and empty Response body, " +
+                    "responded: " + response.getStatusCode() +
+                    " Response body: " + response.getContent());
         }
 
 
