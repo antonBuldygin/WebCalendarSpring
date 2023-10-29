@@ -126,20 +126,11 @@ public class WebCalendarSpringTest extends SpringTest {
                 "\n " + response.getRequest().getLocalUri() + "\n " + response.getRequest().getMethod());
 
 
-//        if (eventsList.size()  == 0) {
-//
-//            expect(response.getContent()).asJson().check(
-//                    isObject()
-//                            .value("data", "There are no events for today!")
-//
-//            );
-//        }
 
         List<String> eventsToString;
 
 
         eventsToString = eventsList.stream().filter(it -> it.date.equals(LocalDate.now().toString())).map(it -> it.toString()).collect(Collectors.toList());
-//                eventsToString.stream().forEach(System.out::println);
 
 
         eventsToString.stream().forEach(System.out::println);
@@ -280,7 +271,6 @@ public class WebCalendarSpringTest extends SpringTest {
 
     private int randomReturn(List<Map<String, String>> list) {
         int toReturn = (int) Math.round(Math.random() * (list.size() - 1));
-//        System.out.println(toReturn);
 
         return toReturn;
     }

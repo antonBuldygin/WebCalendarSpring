@@ -9,14 +9,14 @@
 5[0m[0;34m =========|_|==============|___/=/_/_/_/
 7[0m[0;34m :: Spring Boot ::                (v3.0.2)
 [0m[0;34m
-˝[0m[0;34m2023-10-29T20:36:28.291+03:00  INFO 7584 --- [    Test worker] webCalendarSpring.Main                   : Starting Main using Java 17.0.5 with PID 7584 (started by anton in E:\WebCalendarSpring updated on 20102023\Web Calendar Spring\stage2)
-π[0m[0;34m2023-10-29T20:36:28.294+03:00  INFO 7584 --- [    Test worker] webCalendarSpring.Main                   : No active profile set, falling back to 1 default profile: "default"
-£[0m[0;34m2023-10-29T20:36:29.424+03:00  INFO 7584 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 28852 (http)
-è[0m[0;34m2023-10-29T20:36:29.435+03:00  INFO 7584 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-•[0m[0;34m2023-10-29T20:36:29.436+03:00  INFO 7584 --- [    Test worker] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.5]
-®[0m[0;34m2023-10-29T20:36:29.508+03:00  INFO 7584 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-µ[0m[0;34m2023-10-29T20:36:29.510+03:00  INFO 7584 --- [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1172 ms
-Æ[0m[0;34m2023-10-29T20:36:29.653+03:00  WARN 7584 --- [    Test worker] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
+ˇ[0m[0;34m2023-10-29T20:57:26.713+03:00  INFO 22172 --- [    Test worker] webCalendarSpring.Main                   : Starting Main using Java 17.0.5 with PID 22172 (started by anton in E:\WebCalendarSpring updated on 20102023\Web Calendar Spring\stage2)
+∫[0m[0;34m2023-10-29T20:57:26.717+03:00  INFO 22172 --- [    Test worker] webCalendarSpring.Main                   : No active profile set, falling back to 1 default profile: "default"
+§[0m[0;34m2023-10-29T20:57:27.723+03:00  INFO 22172 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 28852 (http)
+ê[0m[0;34m2023-10-29T20:57:27.734+03:00  INFO 22172 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+¶[0m[0;34m2023-10-29T20:57:27.735+03:00  INFO 22172 --- [    Test worker] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.5]
+©[0m[0;34m2023-10-29T20:57:27.806+03:00  INFO 22172 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+∂[0m[0;34m2023-10-29T20:57:27.808+03:00  INFO 22172 --- [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1051 ms
+Ø[0m[0;34m2023-10-29T20:57:27.946+03:00  WARN 22172 --- [    Test worker] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
 [0m[0;34m
 ’[0m[0;34mjava.lang.IllegalAccessException: class org.apache.tomcat.util.security.PrivilegedSetAccessControlContext cannot access a member of class java.lang.Thread (in module java.base) with modifiers "private"
 q[0m[0;34m	at java.base/jdk.internal.reflect.Reflection.newIllegalAccessException(Reflection.java:392) ~[na:na]
@@ -110,7 +110,7 @@
 Ä[0m[0;34m	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69) ~[gradle-worker.jar:na]
 Å[0m[0;34m	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74) ~[gradle-worker.jar:na]
 [0m[0;34m
-™[0;34m2023-10-29T20:36:29.669+03:00  WARN 7584 --- [alina-utility-1] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
+´[0;34m2023-10-29T20:57:27.957+03:00  WARN 22172 --- [alina-utility-1] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
 [0m[0;34m
 ’[0m[0;34mjava.lang.IllegalAccessException: class org.apache.tomcat.util.security.PrivilegedSetAccessControlContext cannot access a member of class java.lang.Thread (in module java.base) with modifiers "private"
 q[0m[0;34m	at java.base/jdk.internal.reflect.Reflection.newIllegalAccessException(Reflection.java:392) ~[na:na]
@@ -137,8 +137,8 @@
 â[0m[0;34m	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
 H[0m[0;34m	at java.base/java.lang.Thread.run(Thread.java:833) ~[na:na]
 [0m[0;34m
-´[0m[0;34m2023-10-29T20:36:30.141+03:00  INFO 7584 --- [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoint(s) beneath base path '/actuator'
-Æ[0m[0;34m2023-10-29T20:36:30.186+03:00  WARN 7584 --- [    Test worker] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
+¨[0m[0;34m2023-10-29T20:57:28.390+03:00  INFO 22172 --- [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoint(s) beneath base path '/actuator'
+Ø[0m[0;34m2023-10-29T20:57:28.432+03:00  WARN 22172 --- [    Test worker] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
 [0m[0;34m
 ’[0m[0;34mjava.lang.IllegalAccessException: class org.apache.tomcat.util.security.PrivilegedSetAccessControlContext cannot access a member of class java.lang.Thread (in module java.base) with modifiers "private"
 q[0m[0;34m	at java.base/jdk.internal.reflect.Reflection.newIllegalAccessException(Reflection.java:392) ~[na:na]
@@ -233,7 +233,7 @@
 Ä[0m[0;34m	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69) ~[gradle-worker.jar:na]
 Å[0m[0;34m	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74) ~[gradle-worker.jar:na]
 [0m[0;34m
-Æ[0m[0;34m2023-10-29T20:36:30.192+03:00  WARN 7584 --- [    Test worker] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
+Ø[0m[0;34m2023-10-29T20:57:28.438+03:00  WARN 22172 --- [    Test worker] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
 [0m[0;34m
 ’[0m[0;34mjava.lang.IllegalAccessException: class org.apache.tomcat.util.security.PrivilegedSetAccessControlContext cannot access a member of class java.lang.Thread (in module java.base) with modifiers "private"
 q[0m[0;34m	at java.base/jdk.internal.reflect.Reflection.newIllegalAccessException(Reflection.java:392) ~[na:na]
@@ -328,7 +328,7 @@
 Ä[0m[0;34m	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69) ~[gradle-worker.jar:na]
 Å[0m[0;34m	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74) ~[gradle-worker.jar:na]
 [0m[0;34m
-Æ[0m[0;34m2023-10-29T20:36:30.200+03:00  WARN 7584 --- [    Test worker] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
+Ø[0m[0;34m2023-10-29T20:57:28.444+03:00  WARN 22172 --- [    Test worker] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
 [0m[0;34m
 ’[0m[0;34mjava.lang.IllegalAccessException: class org.apache.tomcat.util.security.PrivilegedSetAccessControlContext cannot access a member of class java.lang.Thread (in module java.base) with modifiers "private"
 q[0m[0;34m	at java.base/jdk.internal.reflect.Reflection.newIllegalAccessException(Reflection.java:392) ~[na:na]
@@ -423,7 +423,7 @@
 Ä[0m[0;34m	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69) ~[gradle-worker.jar:na]
 Å[0m[0;34m	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74) ~[gradle-worker.jar:na]
 [0m[0;34m
-Æ[0m[0;34m2023-10-29T20:36:30.206+03:00  WARN 7584 --- [    Test worker] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
+Ø[0m[0;34m2023-10-29T20:57:28.451+03:00  WARN 22172 --- [    Test worker] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
 [0m[0;34m
 ’[0m[0;34mjava.lang.IllegalAccessException: class org.apache.tomcat.util.security.PrivilegedSetAccessControlContext cannot access a member of class java.lang.Thread (in module java.base) with modifiers "private"
 q[0m[0;34m	at java.base/jdk.internal.reflect.Reflection.newIllegalAccessException(Reflection.java:392) ~[na:na]
@@ -518,7 +518,7 @@
 Ä[0m[0;34m	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69) ~[gradle-worker.jar:na]
 Å[0m[0;34m	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74) ~[gradle-worker.jar:na]
 [0m[0;34m
-Æ[0m[0;34m2023-10-29T20:36:30.213+03:00  WARN 7584 --- [    Test worker] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
+Ø[0m[0;34m2023-10-29T20:57:28.457+03:00  WARN 22172 --- [    Test worker] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
 [0m[0;34m
 ’[0m[0;34mjava.lang.IllegalAccessException: class org.apache.tomcat.util.security.PrivilegedSetAccessControlContext cannot access a member of class java.lang.Thread (in module java.base) with modifiers "private"
 q[0m[0;34m	at java.base/jdk.internal.reflect.Reflection.newIllegalAccessException(Reflection.java:392) ~[na:na]
@@ -613,7 +613,7 @@
 Ä[0m[0;34m	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69) ~[gradle-worker.jar:na]
 Å[0m[0;34m	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74) ~[gradle-worker.jar:na]
 [0m[0;34m
-Æ[0m[0;34m2023-10-29T20:36:30.220+03:00  WARN 7584 --- [    Test worker] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
+Ø[0m[0;34m2023-10-29T20:57:28.463+03:00  WARN 22172 --- [    Test worker] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
 [0m[0;34m
 ’[0m[0;34mjava.lang.IllegalAccessException: class org.apache.tomcat.util.security.PrivilegedSetAccessControlContext cannot access a member of class java.lang.Thread (in module java.base) with modifiers "private"
 q[0m[0;34m	at java.base/jdk.internal.reflect.Reflection.newIllegalAccessException(Reflection.java:392) ~[na:na]
@@ -708,7 +708,7 @@
 Ä[0m[0;34m	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69) ~[gradle-worker.jar:na]
 Å[0m[0;34m	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74) ~[gradle-worker.jar:na]
 [0m[0;34m
-Æ[0m[0;34m2023-10-29T20:36:30.226+03:00  WARN 7584 --- [    Test worker] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
+Ø[0m[0;34m2023-10-29T20:57:28.470+03:00  WARN 22172 --- [    Test worker] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
 [0m[0;34m
 ’[0m[0;34mjava.lang.IllegalAccessException: class org.apache.tomcat.util.security.PrivilegedSetAccessControlContext cannot access a member of class java.lang.Thread (in module java.base) with modifiers "private"
 q[0m[0;34m	at java.base/jdk.internal.reflect.Reflection.newIllegalAccessException(Reflection.java:392) ~[na:na]
@@ -803,7 +803,7 @@
 Ä[0m[0;34m	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69) ~[gradle-worker.jar:na]
 Å[0m[0;34m	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74) ~[gradle-worker.jar:na]
 [0m[0;34m
-Æ[0m[0;34m2023-10-29T20:36:30.231+03:00  WARN 7584 --- [    Test worker] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
+Ø[0m[0;34m2023-10-29T20:57:28.477+03:00  WARN 22172 --- [    Test worker] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
 [0m[0;34m
 ’[0m[0;34mjava.lang.IllegalAccessException: class org.apache.tomcat.util.security.PrivilegedSetAccessControlContext cannot access a member of class java.lang.Thread (in module java.base) with modifiers "private"
 q[0m[0;34m	at java.base/jdk.internal.reflect.Reflection.newIllegalAccessException(Reflection.java:392) ~[na:na]
@@ -898,7 +898,7 @@
 Ä[0m[0;34m	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69) ~[gradle-worker.jar:na]
 Å[0m[0;34m	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74) ~[gradle-worker.jar:na]
 [0m[0;34m
-Æ[0m[0;34m2023-10-29T20:36:30.236+03:00  WARN 7584 --- [    Test worker] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
+Ø[0m[0;34m2023-10-29T20:57:28.482+03:00  WARN 22172 --- [    Test worker] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
 [0m[0;34m
 ’[0m[0;34mjava.lang.IllegalAccessException: class org.apache.tomcat.util.security.PrivilegedSetAccessControlContext cannot access a member of class java.lang.Thread (in module java.base) with modifiers "private"
 q[0m[0;34m	at java.base/jdk.internal.reflect.Reflection.newIllegalAccessException(Reflection.java:392) ~[na:na]
@@ -993,7 +993,7 @@
 Ä[0m[0;34m	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69) ~[gradle-worker.jar:na]
 Å[0m[0;34m	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74) ~[gradle-worker.jar:na]
 [0m[0;34m
-Æ[0m[0;34m2023-10-29T20:36:30.241+03:00  WARN 7584 --- [    Test worker] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
+Ø[0m[0;34m2023-10-29T20:57:28.487+03:00  WARN 22172 --- [    Test worker] .t.u.s.PrivilegedSetAccessControlContext : Unable to set field Thread.inheritedAccessControlContext
 [0m[0;34m
 ’[0m[0;34mjava.lang.IllegalAccessException: class org.apache.tomcat.util.security.PrivilegedSetAccessControlContext cannot access a member of class java.lang.Thread (in module java.base) with modifiers "private"
 q[0m[0;34m	at java.base/jdk.internal.reflect.Reflection.newIllegalAccessException(Reflection.java:392) ~[na:na]
@@ -1088,11 +1088,11 @@
 Ä[0m[0;34m	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69) ~[gradle-worker.jar:na]
 Å[0m[0;34m	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74) ~[gradle-worker.jar:na]
 [0m[0;34m
-≤[0m[0;34m2023-10-29T20:36:30.253+03:00  INFO 7584 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 28852 (http) with context path ''
-Ø[0m[0;34m2023-10-29T20:36:30.265+03:00  INFO 7584 --- [    Test worker] webCalendarSpring.Main                   : Started Main in 2.301 seconds (process running for 2.941)
-´[0;34m2023-10-29T20:36:30.529+03:00  INFO 7584 --- [io-28852-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-û[0m[0;34m2023-10-29T20:36:30.530+03:00  INFO 7584 --- [io-28852-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-ñ[0m[0;34m2023-10-29T20:36:30.531+03:00  INFO 7584 --- [io-28852-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+≥[0m[0;34m2023-10-29T20:57:28.498+03:00  INFO 22172 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 28852 (http) with context path ''
+∞[0m[0;34m2023-10-29T20:57:28.513+03:00  INFO 22172 --- [    Test worker] webCalendarSpring.Main                   : Started Main in 2.101 seconds (process running for 2.751)
+¨[0;34m2023-10-29T20:57:28.813+03:00  INFO 22172 --- [io-28852-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+ü[0m[0;34m2023-10-29T20:57:28.814+03:00  INFO 22172 --- [io-28852-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+ó[0m[0;34m2023-10-29T20:57:28.815+03:00  INFO 22172 --- [io-28852-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
 [0m[0;34m{ 
 8[0m[0;34m    "message": "The event has been added!", 
 1[0m[0;34m    "event": "Today is a good Day ", 

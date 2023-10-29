@@ -123,20 +123,9 @@ public class WebCalendarSpringTest extends SpringTest {
                 "\n " + response.getRequest().getLocalUri() + "\n " + response.getRequest().getMethod());
 
 
-//        if (eventsList.size()  == 0) {
-//
-//            expect(response.getContent()).asJson().check(
-//                    isObject()
-//                            .value("data", "There are no events for today!")
-//
-//            );
-//        }
-
         List<String> eventsToString;
 
-
         eventsToString = eventsList.stream().filter(it -> it.date.equals(LocalDate.now().toString())).map(it -> it.toString()).collect(Collectors.toList());
-//                eventsToString.stream().forEach(System.out::println);
 
 
         eventsToString.stream().forEach(System.out::println);
@@ -246,11 +235,6 @@ public class WebCalendarSpringTest extends SpringTest {
                 + "\n " + response.getRequest().getMethod());
 
 
-//        if (count == 0 && !response.getJson().isJsonArray()) {
-//            return CheckResult.wrong("Wrong object in response, expected JSON Array but was \n" +
-//                    response.getContent().getClass());
-//
-//        }
         if (eventsList.size() == 0 && +response.getStatusCode() != 204) {
             return CheckResult.wrong(response.getRequest().getMethod() + " " +
                     response.getRequest().getLocalUri() +
@@ -260,15 +244,6 @@ public class WebCalendarSpringTest extends SpringTest {
 
         }
 
-//        if (response.getStatusCode() == 400) {
-//
-//            expect(response.getContent()).asJson().check(
-//                    isObject()
-//                            .value("data", "There are no events!")
-//
-//            );
-//
-//        }
 
         if (response.getStatusCode() == 200) {
 
