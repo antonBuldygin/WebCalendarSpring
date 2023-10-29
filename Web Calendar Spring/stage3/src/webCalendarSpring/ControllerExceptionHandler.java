@@ -13,12 +13,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 //@ControllerAdvice
-//@Order(Ordered.HIGHEST_PRECEDENCE)
+
 @ControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler  {
-
-    // handleFlightNotFound method
-
 
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
@@ -26,7 +23,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler  
             HttpStatusCode status,
             WebRequest request) {
 
-        // Just like a POJO, a Map is also converted to a JSON key-value structure
+
         Map<String, Object> body = new LinkedHashMap<>();
 //        body.put("status", status.value());
         body.put("timestamp", LocalDateTime.now());

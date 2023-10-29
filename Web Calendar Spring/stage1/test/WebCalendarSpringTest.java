@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import static org.hyperskill.hstest.common.JsonUtils.getJson;
 import static org.hyperskill.hstest.testing.expect.Expectation.expect;
 import static org.hyperskill.hstest.testing.expect.json.JsonChecker.isObject;
+
 class EventForTest {
     int id;
     String event;
@@ -42,13 +43,13 @@ class EventForTest {
 }
 
 
-public class webCalendarSpringTest extends SpringTest {
+public class WebCalendarSpringTest extends SpringTest {
     private static List<EventForTest> eventsList = new ArrayList<>();
     int count = 0;
 
-    public webCalendarSpringTest() {
+    public WebCalendarSpringTest() {
 
-        super(Main.class, "../d.mv.db");
+        super(Main.class);
 
     }
 
@@ -70,20 +71,10 @@ public class webCalendarSpringTest extends SpringTest {
                 "\n " + response.getRequest().getLocalUri() + "\n " + response.getRequest().getMethod());
 
 
-//        if (eventsList.size()  == 0) {
-//
-//            expect(response.getContent()).asJson().check(
-//                    isObject()
-//                            .value("data", "There are no events for today!")
-//
-//            );
-//        }
-
         List<String> eventsToString;
 
 
         eventsToString = eventsList.stream().filter(it -> it.date.equals(LocalDate.now().toString())).map(it -> it.toString()).collect(Collectors.toList());
-//                eventsToString.stream().forEach(System.out::println);
 
 
         eventsToString.stream().forEach(System.out::println);
@@ -110,7 +101,6 @@ public class webCalendarSpringTest extends SpringTest {
                             .value("date", correctJson.get(i).getAsJsonObject().get("date").getAsString()));
 
         }
-
 
 
         return CheckResult.correct();

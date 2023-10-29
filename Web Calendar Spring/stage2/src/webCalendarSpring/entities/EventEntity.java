@@ -1,29 +1,13 @@
 package webCalendarSpring.entities;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "event_entity")
+
 public class EventEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+
     private Long id;
-
-    @NotBlank( message = "Не дожен быть пустым")
-    @NotEmpty( message = "Не должен быть без ничего")
-    @NotNull( message = "Не должен быть Null")
-    @Basic(fetch = FetchType.LAZY)
-    @Column(name = "event")
     private String event;
-
-
-    @NotNull( message = "Не должен быть Null")
-    @Basic(fetch = FetchType.LAZY)
-    @Column(name = "date", nullable = false)
     private LocalDate date;
 
     public Long getId() {

@@ -43,12 +43,12 @@ class EventForTest {
 
 }
 
-public class webCalendarSpringTest extends SpringTest {
+public class WebCalendarSpringTest extends SpringTest {
     EventForTest eventForTest;
 
     int count = 0;
 
-    public webCalendarSpringTest() {
+    public WebCalendarSpringTest() {
 
         super(Main.class, "../d.mv.db");
 
@@ -187,23 +187,23 @@ public class webCalendarSpringTest extends SpringTest {
     DynamicTesting[] dynamicTests = new DynamicTesting[]{
 
 
-            () -> testPostEvent(justToday, 200), //#4
-            () -> testPostEvent(justToday, 200), //#5
-            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200), //#6
+            () -> testPostEvent(justToday, 200), //#1
+            () -> testPostEvent(justToday, 200), //#2
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200), //#3
 
 
             //incorrect body for Post request
-            () -> testPostEvent(emptyEvent1, 400), //#10
-            () -> testPostEvent(blankEvent2, 400), //#11
-            () -> testPostEvent(nullEvent3, 400), //#12
-            () -> testPostEvent(nullDate4, 400), //#13
-            () -> testPostEvent(emptyEventNullDate5, 400), //#14
-            () -> testPostEvent(emptyEventEmptyDate6, 400), //#15
-            () -> testPostEvent(blankDateEmptyEvent7, 400), //#16
-            () -> testPostEvent(blankDate8, 400), //#17
-            () -> testPostEvent(blankDate9, 400), //#18
-            () -> testPostEvent(emptyDate10, 400), //#19
-            () -> testPostEvent(emptyDate11, 400), //#20
+            () -> testPostEvent(emptyEvent1, 400), //#4
+            () -> testPostEvent(blankEvent2, 400), //#5
+            () -> testPostEvent(nullEvent3, 400), //#6
+            () -> testPostEvent(nullDate4, 400), //#7
+            () -> testPostEvent(emptyEventNullDate5, 400), //#8
+            () -> testPostEvent(emptyEventEmptyDate6, 400), //#9
+            () -> testPostEvent(blankDateEmptyEvent7, 400), //#10
+            () -> testPostEvent(blankDate8, 400), //#11
+            () -> testPostEvent(blankDate9, 400), //#12
+            () -> testPostEvent(emptyDate10, 400), //#13
+            () -> testPostEvent(emptyDate11, 400), //#14
 
 
     };

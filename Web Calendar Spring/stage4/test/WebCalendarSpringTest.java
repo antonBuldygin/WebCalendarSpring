@@ -42,12 +42,12 @@ class EventForTest {
 
 }
 
-public class webCalendarSpringTest extends SpringTest {
+public class WebCalendarSpringTest extends SpringTest {
     EventForTest eventForTest;
 
     int count = 0;
 
-    public webCalendarSpringTest() {
+    public WebCalendarSpringTest() {
 
         super(Main.class, "../d.mv.db");
 

@@ -1,24 +1,14 @@
 type: edu
 files:
-  - name: src/webCalendarSpring/Event.java
-    visible: true
   - name: src/webCalendarSpring/entities/EventEntity.java
-    visible: true
-  - name: src/webCalendarSpring/Violation.java
-    visible: true
-  - name: src/webCalendarSpring/repositories/EventEntityRepository.java
     visible: true
   - name: src/webCalendarSpring/Main.java
     visible: true
   - name: resources/application.properties
     visible: true
-  - name: src/webCalendarSpring/ValidationErrorResponse.java
-    visible: true
   - name: build.gradle
     visible: true
-  - name: test/webCalendarSpringTest.java
-    visible: false
   - name: src/webCalendarSpring/controllers/EventsController.java
     visible: true
-  - name: src/webCalendarSpring/ControllerExceptionHandler.java
-    visible: true
+  - name: test/WebCalendarSpringTest.java
+    visible: false
