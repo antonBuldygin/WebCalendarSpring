@@ -1,7 +1,5 @@
 package webCalendarSpring.controllers;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +27,6 @@ public class EventsController {
     @GetMapping("/today")
     public ResponseEntity<?> todayEvents() {
 
-//        String data = "{\"data\":\"There are no events for today!\"}";
-//
-//
-//        if (eventEntityRepository.findByDate(LocalDate.now()).isEmpty()) {
-//            return ResponseEntity.ok().body(data);
-//        }
         return ResponseEntity.ok().body(eventEntityRepository.findByDate(LocalDate.now()));
 
     }

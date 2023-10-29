@@ -1,7 +1,5 @@
 package webCalendarSpring.controllers;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
