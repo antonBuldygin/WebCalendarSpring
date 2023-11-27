@@ -235,7 +235,7 @@ public class WebCalendarSpringTest extends SpringTest {
                 + "\n " + response.getRequest().getMethod());
 
 
-        if (eventsList.size() == 0 && +response.getStatusCode() != 204) {
+        if (eventsList.size() == 0 && response.getStatusCode() != 204) {
             return CheckResult.wrong(response.getRequest().getMethod() + " " +
                     response.getRequest().getLocalUri() +
                     " should respond with status code 204, " +
